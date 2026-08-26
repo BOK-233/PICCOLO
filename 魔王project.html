@@ -1,1 +1,735 @@
-<p>魔王</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欢迎光临 ★【keroro骑士团】★</title>
+<style>
+/* ============================================================
+   2000年代 旧互联网个人主页风 —— 全部风格内联，单文件可运行
+   ============================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --neon-cyan: #00ffff;
+  --neon-yellow: #ffff00;
+  --neon-pink: #ff66cc;
+  --neon-green: #33ff66;
+  --neon-orange: #ff9933;
+  --panel-bg: rgba(8, 8, 46, 0.92);
+  --panel-border: #4040ff;
+  --text-main: #e8e8ff;
+  --link: #66ccff;
+  --link-hover: #ffff66;
+}
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  font-family: "Comic Sans MS", "Comic Sans", "楷体", "KaiTi", "Microsoft YaHei", sans-serif;
+  color: var(--text-main);
+  background: #000020;
+  overflow-x: hidden;
+}
+
+/* ---------- 星空背景 ---------- */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 15%, #1a1a6e 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, #120a3a 0%, transparent 55%),
+    linear-gradient(#000020, #000040 70%, #0a0a50);
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: twinkle var(--tw, 3s) ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: 0.15; }
+  to   { opacity: 1; }
+}
+
+/* ---------- 页面容器 ---------- */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 10px 30px;
+}
+
+/* ---------- 顶部标题 ---------- */
+.top-banner {
+  text-align: center;
+  padding: 22px 10px 14px;
+  border: 3px ridge #6666ff;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(20,20,90,.95), rgba(5,5,35,.95));
+  box-shadow: 0 0 22px rgba(0,120,255,.55), inset 0 0 30px rgba(0,0,0,.6);
+  position: relative;
+}
+.top-banner h1 {
+  font-size: clamp(26px, 5.5vw, 46px);
+  letter-spacing: 2px;
+  line-height: 1.25;
+  background: linear-gradient(90deg, #ff0000,#ff6600,#ffff00,#00ff00,#00ffff,#6600ff,#ff00ff,#ff0000);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 8s linear infinite;
+  text-shadow: 0 0 18px rgba(255,255,255,.25);
+}
+@keyframes rainbow { to { background-position: 300% 0; } }
+.top-banner .subtitle {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--neon-cyan);
+  letter-spacing: 1px;
+}
+.construction {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 12px;
+  font-size: 13px;
+  color: #000;
+  background: repeating-linear-gradient(45deg, #ffcc00, #ffcc00 10px, #000000 10px, #000000 20px);
+  border: 2px solid #000;
+  font-weight: bold;
+  border-radius: 4px;
+}
+.construction span { background: #ffcc00; padding: 1px 6px; border-radius: 2px; }
+
+/* ---------- 跑马灯 ---------- */
+.marquee-wrap {
+  margin: 10px 0;
+  border: 2px solid #6666ff;
+  background: #000030;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+.marquee-track {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 22s linear infinite;
+  font-size: 15px;
+  color: var(--neon-yellow);
+}
+.marquee-track em { font-style: normal; color: var(--neon-pink); }
+@keyframes marquee { to { transform: translateX(-100%); } }
+
+/* ---------- 导航栏 ---------- */
+nav.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin: 12px 0;
+}
+nav.tabs button {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: bold;
+  color: #000;
+  background: linear-gradient(180deg, #ffe680, #ffaa00);
+  border: 2px outset #ffcc66;
+  padding: 7px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform .08s;
+}
+nav.tabs button:hover { filter: brightness(1.15); }
+nav.tabs button:active { transform: translateY(1px); border-style: inset; }
+nav.tabs button[aria-selected="true"] {
+  background: linear-gradient(180deg, #ff6a6a, #ff2020);
+  border-color: #ff8888;
+  color: #fff;
+  text-shadow: 0 0 6px #000;
+}
+
+/* ---------- 主体布局 ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .layout { grid-template-columns: 1fr; }
+}
+
+/* ---------- 面板通用 ---------- */
+.panel {
+  border: 2px solid var(--panel-border);
+  border-radius: 10px;
+  background: var(--panel-bg);
+  box-shadow: 0 0 14px rgba(0,80,255,.35);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #000;
+  background: linear-gradient(90deg, #33ccff, #3399ff);
+  text-shadow: 1px 1px 0 #fff8;
+}
+.panel-title .deco { color: #003366; }
+.panel-body { padding: 10px 12px; font-size: 14px; line-height: 1.7; }
+
+/* ---------- 侧边栏 ---------- */
+.avatar-box { text-align: center; padding: 12px; }
+.avatar-box .avatar {
+  width: 110px; height: 110px;
+  margin: 0 auto;
+  border: 3px solid var(--neon-cyan);
+  border-radius: 10px;
+  background: #101050;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #88aaff; text-align: center;
+  box-shadow: 0 0 12px rgba(0,255,255,.4);
+}
+.avatar-box .nick { margin-top: 8px; font-size: 18px; font-weight: bold; color: var(--neon-yellow); }
+.avatar-box .sign { font-size: 12px; color: var(--neon-pink); margin-top: 2px; }
+
+.info-list { list-style: none; font-size: 13px; }
+.info-list li { padding: 4px 0; border-bottom: 1px dashed #3333aa; }
+.info-list b { color: var(--neon-orange); }
+
+/* 计数器 */
+.counter-box { text-align: center; padding: 8px 10px; font-size: 13px; color: #aaccff; }
+.odometer {
+  display: inline-flex; gap: 3px; margin: 6px auto;
+  background: #111;
+  border: 2px inset #444;
+  border-radius: 6px; padding: 6px 10px;
+}
+.odometer .digit {
+  width: 18px; height: 24px;
+  background: #000;
+  border: 1px solid #0a3a0a;
+  border-radius: 3px;
+  color: #33ff66;
+  font-family: "Courier New", monospace;
+  font-weight: bold; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  text-shadow: 0 0 6px #33ff66;
+}
+.counter-box small { color: #7799cc; }
+
+/* 公告栏 */
+.bulletin { font-size: 13px; color: #ffe0a0; }
+.bulletin .b-item { padding: 4px 0; border-bottom: 1px dashed #553300; }
+.b-new {
+  display: inline-block; font-size: 11px; color: #fff; background: #ff0000;
+  border-radius: 3px; padding: 0 4px; margin-left: 4px;
+  animation: blink 1s steps(2, start) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 在线时长 */
+.online-timer { text-align: center; font-size: 13px; color: #aaffaa; padding: 6px; }
+
+/* 时钟 */
+.clock-box { text-align: center; font-size: 13px; color: #ffcc66; padding: 6px; }
+.clock-box b { color: var(--neon-green); letter-spacing: 1px; }
+
+/* ---------- 主区域 ---------- */
+main.main { min-height: 480px; }
+.tab-page[hidden] { display: none !important; }
+
+.hello {
+  font-size: 20px; color: var(--neon-yellow); margin-bottom: 10px;
+  animation: blink 2.2s steps(1) infinite;
+}
+@keyframes blink2 { 50% { opacity: .45; } }
+.hello { animation: blink2 2.2s steps(1) infinite; }
+
+.divider {
+  height: 8px; margin: 12px 0;
+  background: repeating-linear-gradient(90deg,
+    #ff0000 0 12px, #ff6600 12px 24px, #ffff00 24px 36px,
+    #00ff00 36px 48px, #00ffff 48px 60px, #6600ff 60px 72px, #ff00ff 72px 84px);
+  border-radius: 4px;
+  opacity: .8;
+}
+
+.update-list { list-style: none; }
+.update-list li { padding: 5px 0; border-bottom: 1px dashed #4444cc; font-size: 14px; }
+.update-list .date { color: var(--neon-green); font-family: "Courier New", monospace; font-size: 12px; margin-right: 8px; }
+.tag {
+  display: inline-block; font-size: 11px; border-radius: 3px; padding: 0 5px;
+  color: #000; font-weight: bold; margin-left: 6px;
+}
+.tag-new { background: #ff5555; color: #fff; }
+.tag-hot { background: #ffcc00; }
+
+h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-left: 6px solid var(--neon-pink); padding-left: 8px; }
+
+/* 友情链接按钮 */
+.link-btn {
+  display: inline-block; margin: 4px 6px 4px 0;
+  padding: 4px 12px;
+  font-size: 13px; font-weight: bold;
+  color: #000066;
+  background: linear-gradient(180deg, #aaffaa, #33dd66);
+  border: 2px outset #88ff88;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.link-btn:hover { filter: brightness(1.12); }
+
+/* 相册 */
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.photo {
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  background: #0a0a3a;
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #88aaff; text-align: center; padding: 6px;
+  box-shadow: 0 0 8px rgba(0,255,255,.25);
+}
+
+/* ---------- 留言板 ---------- */
+.gb-form {
+  border: 2px solid #6666ff; border-radius: 8px;
+  background: rgba(0,0,40,.6);
+  padding: 12px; margin-bottom: 12px;
+}
+.gb-form label { font-size: 13px; color: var(--neon-orange); }
+.gb-form input[type="text"], .gb-form textarea {
+  width: 100%;
+  margin: 4px 0 10px;
+  padding: 7px;
+  font-family: inherit; font-size: 14px;
+  color: #00ffcc; background: #000030;
+  border: 2px inset #3355aa; border-radius: 5px;
+}
+.gb-form input:focus, .gb-form textarea:focus {
+  outline: 2px solid var(--neon-cyan); outline-offset: 1px;
+}
+.gb-form .gb-btn {
+  font-family: inherit; font-size: 15px; font-weight: bold;
+  color: #000; background: linear-gradient(180deg, #ff99cc, #ff3399);
+  border: 2px outset #ff66aa; border-radius: 6px; padding: 6px 18px; cursor: pointer;
+}
+.gb-form .gb-btn:hover { filter: brightness(1.12); }
+.gb-form .gb-btn:active { border-style: inset; }
+
+.gb-msg {
+  border: 2px solid #3355aa; border-radius: 8px;
+  background: rgba(10,10,60,.7);
+  padding: 10px 12px; margin-bottom: 10px;
+  position: relative;
+}
+.gb-msg .gb-head { font-size: 13px; margin-bottom: 4px; }
+.gb-msg .gb-name { color: var(--neon-yellow); font-weight: bold; }
+.gb-msg .gb-time { color: #7799cc; font-family: "Courier New", monospace; font-size: 11px; margin-left: 8px; }
+.gb-msg .gb-body { font-size: 14px; color: #e8e8ff; white-space: pre-wrap; word-break: break-word; }
+.gb-msg .gb-del {
+  position: absolute; top: 8px; right: 8px;
+  font-size: 12px; color: #ff8888; background: none; border: none;
+  cursor: pointer; font-family: inherit;
+}
+.gb-msg .gb-del:hover { color: #ff0000; text-decoration: underline; }
+.gb-empty { color: #7799cc; font-size: 13px; text-align: center; padding: 20px 0; }
+
+/* ---------- 页脚 ---------- */
+footer.footer {
+  margin-top: 14px; text-align: center;
+  font-size: 12px; color: #88aadd;
+  border-top: 3px ridge #6666ff;
+  padding-top: 12px; line-height: 1.9;
+}
+footer.footer .copy { color: var(--neon-pink); }
+.badges { margin-top: 8px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.badge {
+  font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 4px;
+  color: #000; border: 1px solid #000;
+}
+.badge.gold { background: #ffcc00; }
+.badge.green { background: #33ff66; }
+.badge.blue { background: #66ccff; }
+.badge.red { background: #ff6666; }
+
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+
+/* 减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .top-banner h1, .star { animation: none !important; }
+  .hello, .b-new { animation: none !important; }
+}
+</style>
+</head>
+<body>
+<!-- 星空背景 -->
+<div id="starfield" aria-hidden="true"></div>
+
+<div class="page">
+
+  <!-- 顶部标题 -->
+  <header class="top-banner">
+    <h1>★ 欢迎来到【keroro骑士团】 ★</h1>
+    <div class="subtitle">◇ 本站建于 2026 年 ◆ 经营中 ◇ 欢迎光临 ◆</div>
+    <div class="construction"><span>🚧 本站正在建设中，欢迎常来逛逛！🚧</span></div>
+  </header>
+
+  <!-- 跑马灯 -->
+  <div class="marquee-wrap" aria-hidden="true">
+    <div class="marquee-track">
+      ★★★ 欢迎光临本小站！&nbsp;&nbsp;<em>☆ 本站第&nbsp;<b id="marquee-count">1</b>&nbsp;位访客 ☆</em>&nbsp;&nbsp;本站主人正在努力更新中，欢迎留言、交换友情链接！&nbsp;&nbsp;本页最佳浏览：IE 6.0 + 800×600 分辨率 ★★★
+    </div>
+  </div>
+
+  <!-- 导航 -->
+  <nav class="tabs" id="tabs" aria-label="页面导航">
+    <button type="button" data-tab="home" aria-selected="true">🏠 首页</button>
+    <button type="button" data-tab="about" aria-selected="false">👤 关于我</button>
+    <button type="button" data-tab="hobby" aria-selected="false">💖 我的兴趣</button>
+    <button type="button" data-tab="photo" aria-selected="false">📷 我的相册</button>
+    <button type="button" data-tab="guestbook" aria-selected="false">✍️ 留言板</button>
+    <button type="button" data-tab="links" aria-selected="false">🔗 友情链接</button>
+  </nav>
+
+  <div class="layout">
+    <!-- ================= 侧边栏 ================= -->
+    <aside>
+      <div class="panel">
+        <div class="panel-title"><span class="deco">◆</span> 站主信息 <span class="deco">◆</span></div>
+        <div class="avatar-box">
+          <div class="avatar">【这里放<br>你的头像】</div>
+          <div class="nick">【你的昵称】</div>
+          <div class="sign">“【你的个性签名】”</div>
+        </div>
+        <ul class="info-list">
+          <li><b>昵称：</b>【你的昵称】</li>
+          <li><b>所在地：</b>【城市】</li>
+          <li><b>星座：</b>【星座】</li>
+          <li><b>爱好：</b>【动漫 / 音乐 / 游戏…】</li>
+          <li><b>QQ：</b>【你的QQ号】</li>
+          <li><b>E-mail：</b>【you@mail.com】</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span class="deco">◆</span> 访客统计 <span class="deco">◆</span></div>
+        <div class="counter-box">
+          <div>您是本站第</div>
+          <div class="odometer" id="odometer" aria-label="访客计数器"></div>
+          <div>位访客</div>
+          <small>点击量每天都在涨哦！</small>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span class="deco">◆</span> 在线信息 <span class="deco">◆</span></div>
+        <div class="clock-box">现在时间：<b id="clock">--:--:--</b></div>
+        <div class="online-timer">您已在本站逗留<br><b id="online">0</b> 秒</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span class="deco">◆</span> 站内公告 <span class="deco">◆</span></div>
+        <div class="bulletin panel-body">
+          <div class="b-item">🎉 本站全新改版，闪亮登场！<span class="b-new">NEW</span></div>
+          <div class="b-item">📮 欢迎来留言板灌水聊天~</div>
+          <div class="b-item">🤝 长期征集友情链接，先留言后互换！</div>
+          <div class="b-item">💾 资料整理中，敬请期待……</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= 主内容 ================= -->
+    <main class="main">
+
+      <!-- 首页 -->
+      <section class="tab-page" id="tab-home" data-page="home">
+        <div class="hello">☆ 叮咚！欢迎光临我的小窝 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <p>你好呀，欢迎来到【你的昵称】的个人主页！这里是 2000 年代风格的互联网小天地，欢迎随便逛逛、留下脚印。</p>
+        <p>本站记录我的【日常生活 / 兴趣爱好 / 珍藏回忆】，也会不定期更新小作文和收藏。喜欢的话请到留言板给我留言，或者交换友情链接~</p>
+
+        <h3 class="sec">✦ 最新更新 ✦</h3>
+        <ul class="update-list">
+          <li><span class="date">2026-08-26</span>本站正式开张，欢迎光临！<span class="tag tag-new">NEW</span></li>
+          <li><span class="date">2026-08-25</span>整理【收藏夹】第一批内容上线</li>
+          <li><span class="date">2026-08-20</span>【相册】补充了几张照片</li>
+        </ul>
+
+        <h3 class="sec">✦ 站长留言 ✦</h3>
+        <p>最近在追【某部动画 / 剧集】，每天蹲点等更新。有空也喜欢【散步 / 听歌 / 打游戏】。世界很大，能在这里相遇就是缘分，愿你天天开心！</p>
+      </section>
+
+      <!-- 关于我 -->
+      <section class="tab-page" id="tab-about" data-page="about" hidden>
+        <div class="hello">☆ 关于我 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <h3 class="sec">◆ 我是谁</h3>
+        <p>【在这里写一段自我介绍：你是谁、做什么的、性格如何。例如：大家好，我是【昵称】，一名【身份/职业】，平时喜欢……】</p>
+        <h3 class="sec">◆ 我的故事</h3>
+        <p>【在这里写下你的经历或想分享的故事：怎么开始接触网络/兴趣爱好、最难忘的一件事、未来的小目标等等。】</p>
+        <h3 class="sec">◆ 小档案</h3>
+        <ul class="info-list">
+          <li><b>生日：</b>【月 / 日】</li>
+          <li><b>最喜欢的事：</b>【___】</li>
+          <li><b>最想去的地方：</b>【___】</li>
+          <li><b>座右铭：</b>【___】</li>
+        </ul>
+      </section>
+
+      <!-- 我的兴趣 -->
+      <section class="tab-page" id="tab-hobby" data-page="hobby" hidden>
+        <div class="hello">☆ 我的兴趣 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <h3 class="sec">📺 动漫 / 影视</h3>
+        <p>【列出你喜欢的动漫、剧集或电影，比如：最爱《___》、最近在追《___》……】</p>
+        <h3 class="sec">🎵 音乐</h3>
+        <p>【列出喜欢的歌手或曲风，比如：喜欢老歌/流行/纯音乐，循环播放中：___】</p>
+        <h3 class="sec">🎮 游戏</h3>
+        <p>【列出常玩的游戏，比如：___ 是心头好，有空一起开黑！】</p>
+        <h3 class="sec">📚 其他爱好</h3>
+        <p>【看书、运动、手工、美食……想写什么都行。】</p>
+      </section>
+
+      <!-- 相册 -->
+      <section class="tab-page" id="tab-photo" data-page="photo" hidden>
+        <div class="hello">☆ 我的相册 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <p style="margin-bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
+        <div class="album-grid">
+          <div class="photo">【照片1<br>占位】</div>
+          <div class="photo">【照片2<br>占位】</div>
+          <div class="photo">【照片3<br>占位】</div>
+          <div class="photo">【照片4<br>占位】</div>
+          <div class="photo">【照片5<br>占位】</div>
+          <div class="photo">【照片6<br>占位】</div>
+        </div>
+      </section>
+
+      <!-- 留言板 -->
+      <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
+        <div class="hello">☆ 留言板 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <div class="gb-form">
+          <form id="gb-form" autocomplete="off">
+            <label for="gb-name">你的大名：</label>
+            <input type="text" id="gb-name" maxlength="20" placeholder="【这里填你的昵称】" required>
+            <label for="gb-msg">留言内容：</label>
+            <textarea id="gb-msg" rows="3" maxlength="500" placeholder="想对我说点什么？" required></textarea>
+            <button type="submit" class="gb-btn">✍️ 提交留言</button>
+          </form>
+        </div>
+        <div id="gb-list" aria-live="polite"></div>
+      </section>
+
+      <!-- 友情链接 -->
+      <section class="tab-page" id="tab-links" data-page="links" hidden>
+        <div class="hello">☆ 友情链接 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <p style="margin-bottom:10px;">这里放着我的朋友们的小站。想互换链接？去留言板找我！</p>
+        <div>
+          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 1】</a>
+          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 2】</a>
+          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 3】</a>
+          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【常逛的论坛】</a>
+          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【喜欢的网站】</a>
+        </div>
+        <h3 class="sec">◆ 交换链接须知</h3>
+        <p>本站链接代码：<br>
+        <code style="color:#33ff66;">&lt;a href="你的网址"&gt;【你的昵称】の小窝&lt;/a&gt;</code></p>
+      </section>
+    </main>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div>© 2006 - 2026 <span class="copy">【你的昵称】</span> の小窝　|　本站共有 <b id="foot-count">0</b> 人次访问</div>
+    <div>建议使用 IE 6.0 或以上浏览器，最佳浏览效果 800×600</div>
+    <div>本站由站长亲手打造，欢迎转载但请注明出处哦~</div>
+    <div class="badges">
+      <span class="badge gold">★ 闪亮登场 ★</span>
+      <span class="badge green">✔ 已备案（假装）</span>
+      <span class="badge blue">🖥 兼容 IE6</span>
+      <span class="badge red">✈ 建设中</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============ 星空背景 ============ */
+  (function stars() {
+    var field = document.getElementById('starfield');
+    var count = 90;
+    for (var i = 0; i < count; i++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      var size = (Math.random() * 2.2 + 0.6).toFixed(1);
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.top = (Math.random() * 100) + '%';
+      s.style.setProperty('--tw', (Math.random() * 3 + 1.5).toFixed(1) + 's');
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      field.appendChild(s);
+    }
+  })();
+
+  /* ============ 访客计数器 ============ */
+  var KEY = 'retro-visits';
+  var visits = 0;
+  try {
+    visits = parseInt(localStorage.getItem(KEY) || '0', 10) || 0;
+  } catch (e) {}
+  visits += 1;
+  try { localStorage.setItem(KEY, String(visits)); } catch (e) {}
+
+  function pad(n, len) {
+    var s = String(n);
+    while (s.length < len) s = '0' + s;
+    return s;
+  }
+  function renderCount() {
+    var digits = pad(visits, 6).split('');
+    var box = document.getElementById('odometer');
+    box.innerHTML = '';
+    digits.forEach(function (d) {
+      var el = document.createElement('span');
+      el.className = 'digit';
+      el.textContent = d;
+      box.appendChild(el);
+    });
+    var foot = document.getElementById('foot-count');
+    if (foot) foot.textContent = visits;
+    var mc = document.getElementById('marquee-count');
+    if (mc) mc.textContent = visits;
+  }
+  renderCount();
+
+  /* ============ 时钟 + 在线时长 ============ */
+  var t0 = Date.now();
+  var clockEl = document.getElementById('clock');
+  var onlineEl = document.getElementById('online');
+  function tick() {
+    var now = new Date();
+    function two(n) { return pad(n, 2); }
+    clockEl.textContent = two(now.getHours()) + ':' + two(now.getMinutes()) + ':' + two(now.getSeconds());
+    onlineEl.textContent = Math.floor((Date.now() - t0) / 1000);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ============ 标签页切换 ============ */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.tab-page'));
+  function switchTab(name) {
+    tabs.forEach(function (b) {
+      var on = b.getAttribute('data-tab') === name;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    pages.forEach(function (p) {
+      p.hidden = p.getAttribute('data-page') !== name;
+    });
+  }
+  tabs.forEach(function (b) {
+    b.addEventListener('click', function () {
+      switchTab(b.getAttribute('data-tab'));
+    });
+  });
+
+  /* ============ 留言板（localStorage） ============ */
+  var GKEY = 'retro-guestbook';
+  function loadMsgs() {
+    try {
+      var raw = localStorage.getItem(GKEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function saveMsgs(msgs) {
+    try { localStorage.setItem(GKEY, JSON.stringify(msgs)); } catch (e) {}
+  }
+  function renderMsgs() {
+    var list = document.getElementById('gb-list');
+    var msgs = loadMsgs();
+    if (!msgs.length) {
+      list.innerHTML = '<div class="gb-empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
+      return;
+    }
+    list.innerHTML = '';
+    msgs.forEach(function (m, idx) {
+      var box = document.createElement('div');
+      box.className = 'gb-msg';
+      var head = document.createElement('div');
+      head.className = 'gb-head';
+      var name = document.createElement('span');
+      name.className = 'gb-name';
+      name.textContent = m.name;
+      var time = document.createElement('span');
+      time.className = 'gb-time';
+      time.textContent = m.time;
+      head.appendChild(name);
+      head.appendChild(time);
+      var body = document.createElement('div');
+      body.className = 'gb-body';
+      body.textContent = m.msg;
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'gb-del';
+      del.textContent = '✕ 删除';
+      del.setAttribute('aria-label', '删除' + m.name + '的留言');
+      del.addEventListener('click', function () {
+        msgs.splice(idx, 1);
+        saveMsgs(msgs);
+        renderMsgs();
+      });
+      box.appendChild(head);
+      box.appendChild(body);
+      box.appendChild(del);
+      list.appendChild(box);
+    });
+  }
+  renderMsgs();
+
+  var gbForm = document.getElementById('gb-form');
+  gbForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nameInput = document.getElementById('gb-name');
+    var msgInput = document.getElementById('gb-msg');
+    var name = nameInput.value.trim();
+    var msg = msgInput.value.trim();
+    if (!name || !msg) return;
+    var msgs = loadMsgs();
+    var now = new Date();
+    function two(n) { return pad(n, 2); }
+    var ts = now.getFullYear() + '-' + two(now.getMonth() + 1) + '-' + two(now.getDate()) +
+             ' ' + two(now.getHours()) + ':' + two(now.getMinutes());
+    msgs.unshift({ name: name, msg: msg, time: ts });
+    saveMsgs(msgs);
+    nameInput.value = '';
+    msgInput.value = '';
+    renderMsgs();
+    nameInput.focus();
+  });
+})();
+</script>
+</body>
+</html>
