@@ -5,87 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>欢迎光临 ★【keroro骑士团】★</title>
 <style>
-/* ====================【仅新增：登录弹窗样式，主页代码完全不动】==================== */
-#login-overlay{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background-image: url("login_bg.jpg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-#login-overlay::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-color:rgba(0,0,0,0.65);
-}
-.login-container{
-  width:320px;
-  height:580px;
-  border:4px ridge #ffcc00;
-  background:#111144;
-  padding:25px;
-  position:relative;
-  z-index:2;
-}
-.login-title{
-  text-align:center;
-  font-size:26px;
-  font-weight:bold;
-  background:linear-gradient(90deg,red,#ff9900,yellow,lime,#00ccff,#9933ff);
-  -webkit-background-clip:text;
-  color:transparent;
-  animation: flash 1s infinite;
-}
-@keyframes flash{
-  0%,100%{opacity:1;}
-  50%{opacity:0.7;}
-}
-.login-marquee{
-  margin:15px 0;
-  color:#ffff66;
-}
-.login-btn-wrap{
-  text-align:center;
-  margin-top:20px;
-}
-.login-btn{
-  padding:8px 28px;
-  font-size:18px;
-  border:3px outset #cccccc;
-  background:#dddddd;
-  cursor:pointer;
-}
-.login-btn:active{
-  border-style:inset;
-}
-.nav-index{
-  margin-top:40px;
-  border:2px inset #6699ff;
-  padding:15px;
-}
-.nav-index h4{
-  text-align:center;
-  margin-top:0;
-  color:#ffcc66;
-}
-.nav-index a{
-  display:block;
-  color:#00ffff;
-  text-decoration:none;
-  margin:12px 0;
-  font-size:16px;
-}
-.nav-index a:hover{
-  color:#ffff00;
-  text-decoration:underline;
-}
-/* ====================【下面全部是你原来主页的完整CSS，没有做任何修改】==================== */
+/* ============================================================
+   2000年代 旧互联网个人主页风 —— 全部风格内联，单文件可运行
+   ============================================================ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --neon-cyan: #00ffff;
@@ -107,6 +29,101 @@ body {
   background: #000020;
   overflow-x: hidden;
 }
+
+/* ===================== 新增：登录索引遮罩层 ===================== */
+#loginOverlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  /* 壁纸背景，换成本地图片写 url("./bg.jpg") */
+  background: url("https://picsum.photos/id/1004/1920/1080") center center / cover no-repeat fixed;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:40px 15px;
+}
+#loginOverlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,32,0.68);
+}
+.login-panel{
+  position:relative;
+  z-index:2;
+  width:320px;
+  min-height:580px;
+  border:4px ridge #ffcc00;
+  background:rgba(17,17,68,0.88);
+  padding:26px 22px;
+  border-radius:10px;
+  box-shadow:0 0 30px rgba(0,140,255,0.45);
+}
+.panel-title{
+  text-align:center;
+  font-size:26px;
+  font-weight:bold;
+  background:linear-gradient(90deg,red,#ff9900,yellow,lime,#00ccff,#9933ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:flash 1s infinite;
+  margin-bottom:14px;
+}
+@keyframes flash{
+  0%,100%{opacity:1;}
+  50%{opacity:0.68;}
+}
+.marquee-box{
+  color:#ffff66;
+  margin-bottom:24px;
+}
+.btn-enter{
+  text-align:center;
+  margin-bottom:36px;
+}
+.btn-enter button{
+  padding:9px 30px;
+  font-size:18px;
+  font-weight:bold;
+  border:3px outset #cccccc;
+  background:#dddddd;
+  cursor:pointer;
+}
+.btn-enter button:active{
+  border-style:inset;
+}
+.site-index{
+  border:2px inset #6699ff;
+  padding:16px 14px;
+}
+.site-index h4{
+  text-align:center;
+  color:#ffcc66;
+  margin-bottom:14px;
+  font-size:16px;
+}
+.site-index a{
+  display:block;
+  color:#00ffff;
+  text-decoration:none;
+  margin:12px 0;
+  font-size:15px;
+}
+.site-index a:hover{
+  color:#ffff00;
+  text-decoration:underline;
+}
+.bottom-link{
+  margin-top:24px;
+  text-align:center;
+}
+.bottom-link a{
+  color:#00ffff;
+}
+/* ============================================================== */
+
+/* ---------- 星空背景 ---------- */
 #starfield {
   position: fixed;
   inset: 0;
@@ -127,6 +144,7 @@ body {
   from { opacity: 0.15; }
   to   { opacity: 1; }
 }
+/* ---------- 页面容器 ---------- */
 .page {
   position: relative;
   z-index: 1;
@@ -134,6 +152,7 @@ body {
   margin: 0 auto;
   padding: 12px 10px 30px;
 }
+/* ---------- 顶部标题 ---------- */
 .top-banner {
   text-align: center;
   padding: 22px 10px 14px;
@@ -175,6 +194,7 @@ body {
   border-radius: 4px;
 }
 .construction span { background: #ffcc00; padding: 1px 6px; border-radius: 2px; }
+/* ---------- 跑马灯 ---------- */
 .marquee-wrap {
   margin: 10px 0;
   border: 2px solid #6666ff;
@@ -192,6 +212,7 @@ body {
 }
 .marquee-track em { font-style: normal; color: var(--neon-pink); }
 @keyframes marquee { to { transform: translateX(-100%); } }
+/* ---------- 导航栏 ---------- */
 nav.tabs {
   display: flex;
   flex-wrap: wrap;
@@ -219,6 +240,7 @@ nav.tabs button[aria-selected="true"] {
   color: #fff;
   text-shadow: 0 0 6px #000;
 }
+/* ---------- 主体布局 ---------- */
 .layout {
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -228,6 +250,7 @@ nav.tabs button[aria-selected="true"] {
 @media (max-width: 720px) {
   .layout { grid-template-columns: 1fr; }
 }
+/* ---------- 面板通用 ---------- */
 .panel {
   border: 2px solid var(--panel-border);
   border-radius: 10px;
@@ -249,6 +272,7 @@ nav.tabs button[aria-selected="true"] {
 }
 .panel-title .deco { color: #003366; }
 .panel-body { padding: 10px 12px; font-size: 14px; line-height: 1.7; }
+/* ---------- 侧边栏 ---------- */
 .avatar-box { text-align: center; padding: 12px; }
 .avatar-box .avatar {
   width: 110px; height: 110px;
@@ -265,6 +289,7 @@ nav.tabs button[aria-selected="true"] {
 .info-list { list-style: none; font-size: 13px; }
 .info-list li { padding: 4px 0; border-bottom: 1px dashed #3333aa; }
 .info-list b { color: var(--neon-orange); }
+/* 计数器 */
 .counter-box { text-align: center; padding: 8px 10px; font-size: 13px; color: #aaccff; }
 .odometer {
   display: inline-flex; gap: 3px; margin: 6px auto;
@@ -284,6 +309,7 @@ nav.tabs button[aria-selected="true"] {
   text-shadow: 0 0 6px #33ff66;
 }
 .counter-box small { color: #7799cc; }
+/* 公告栏 */
 .bulletin { font-size: 13px; color: #ffe0a0; }
 .bulletin .b-item { padding: 4px 0; border-bottom: 1px dashed #553300; }
 .b-new {
@@ -292,17 +318,19 @@ nav.tabs button[aria-selected="true"] {
   animation: blink 1s steps(2, start) infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
+/* 在线时长 */
 .online-timer { text-align: center; font-size: 13px; color: #aaffaa; padding: 6px; }
+/* 时钟 */
 .clock-box { text-align: center; font-size: 13px; color: #ffcc66; padding: 6px; }
 .clock-box b { color: var(--neon-green); letter-spacing: 1px; }
+/* ---------- 主区域 ---------- */
 main.main { min-height: 480px; }
 .tab-page[hidden] { display: none !important; }
 .hello {
   font-size: 20px; color: var(--neon-yellow); margin-bottom: 10px;
-  animation: blink 2.2s steps(1) infinite;
+  animation: blink2 2.2s steps(1) infinite;
 }
 @keyframes blink2 { 50% { opacity: .45; } }
-.hello { animation: blink2 2.2s steps(1) infinite; }
 .divider {
   height: 8px; margin: 12px 0;
   background: repeating-linear-gradient(90deg,
@@ -321,6 +349,7 @@ main.main { min-height: 480px; }
 .tag-new { background: #ff5555; color: #fff; }
 .tag-hot { background: #ffcc00; }
 h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-left: 6px solid var(--neon-pink); padding-left: 8px; }
+/* 友情链接按钮 */
 .link-btn {
   display: inline-block; margin: 4px 6px 4px 0;
   padding: 4px 12px;
@@ -332,6 +361,7 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
   text-decoration: none;
 }
 .link-btn:hover { filter: brightness(1.12); }
+/* 相册 */
 .album-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -346,6 +376,7 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
   font-size: 12px; color: #88aaff; text-align: center; padding: 6px;
   box-shadow: 0 0 8px rgba(0,255,255,.25);
 }
+/* ---------- 留言板 ---------- */
 .gb-form {
   border: 2px solid #6666ff; border-radius: 8px;
   background: rgba(0,0,40,.6);
@@ -387,6 +418,7 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
 }
 .gb-msg .gb-del:hover { color: #ff0000; text-decoration: underline; }
 .gb-empty { color: #7799cc; font-size: 13px; text-align: center; padding: 20px 0; }
+/* ---------- 页脚 ---------- */
 footer.footer {
   margin-top: 14px; text-align: center;
   font-size: 12px; color: #88aadd;
@@ -405,47 +437,57 @@ footer.footer .copy { color: var(--neon-pink); }
 .badge.red { background: #ff6666; }
 a { color: var(--link); }
 a:hover { color: var(--link-hover); }
+/* 减少动效偏好 */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track, .top-banner h1, .star { animation: none !important; }
-  .hello, .b-new,.login-title { animation: none !important; }
+  .hello, .b-new { animation: none !important; }
 }
 </style>
 </head>
 <body>
-<!-- =========【新增登录弹窗，主页body内部原有内容完全不动】========= -->
-<div id="login-overlay">
-  <div class="login-container">
-    <div class="login-title">🔐 进入主页</div>
-    <div class="login-marquee">
-      <marquee scrollamount="3">欢迎来到本站 · 点击按钮即可进入</marquee>
+
+<!-- ==========登录索引遮罩层（合并进同一文件）========== -->
+<div id="loginOverlay">
+  <div class="login-panel">
+    <div class="panel-title">🔐 keroro骑士团</div>
+    <div class="marquee-box">
+      <marquee scrollamount="3">欢迎光临，点击按钮进入本站</marquee>
     </div>
-    <div class="login-btn-wrap">
-      <button class="login-btn" onclick="closeLogin()">进 入 网 站</button>
+    <div class="btn-enter">
+      <button onclick="enterSite()">进 入 网 站</button>
     </div>
-    <div class="nav-index">
+    <div class="site-index">
       <h4>📋站点索引</h4>
-      <a href="#!" onclick="closeLogin();switchTab('home')">🏠 网站主页</a>
-      <a href="#!" onclick="closeLogin();switchTab('about')">👤 关于我</a>
-      <a href="#!" onclick="closeLogin();switchTab('hobby')">💖 我的兴趣</a>
-      <a href="#!" onclick="closeLogin();switchTab('photo')">🖼️ 个人相册</a>
-      <a href="#!" onclick="closeLogin();switchTab('guestbook')">📝 留言板</a>
-      <a href="#!" onclick="closeLogin();switchTab('links')">🔗友情链接</a>
+      <a href="#!" onclick="enterSite();switchTab('home');return false;">🏠 网站主页</a>
+      <a href="#!" onclick="enterSite();switchTab('about');return false;">👤 关于我</a>
+      <a href="#!" onclick="enterSite();switchTab('hobby');return false;">💖 我的兴趣</a>
+      <a href="#!" onclick="enterSite();switchTab('photo');return false;">🖼️ 我的相册</a>
+      <a href="#!" onclick="enterSite();switchTab('guestbook');return false;">📝 留言板</a>
+      <a href="#!" onclick="enterSite();switchTab('links');return false;">🔗 友情链接</a>
+    </div>
+    <div class="bottom-link">
+      <a href="#!" onclick="enterSite();return false;">← 直接前往主页</a>
     </div>
   </div>
 </div>
-<!-- =========下面全部是你原来的主页body内容，一行未改========= -->
+<!-- ================================================== -->
+
+<!-- 星空背景 -->
 <div id="starfield" aria-hidden="true"></div>
 <div class="page">
+  <!-- 顶部标题 -->
   <header class="top-banner">
     <h1>★ 欢迎来到【keroro骑士团】 ★</h1>
     <div class="subtitle">◇ 本站建于 2026 年 ◆ 经营中 ◇ 欢迎光临 ◆</div>
     <div class="construction"><span>🚧 本站正在建设中，欢迎常来逛逛！🚧</span></div>
   </header>
+  <!-- 跑马灯 -->
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
       ★★★ 欢迎光临本小站！&nbsp;&nbsp;<em>☆ 本站第&nbsp;<b id="marquee-count">1</b>&nbsp;位访客 ☆</em>&nbsp;&nbsp;本站主人正在努力更新中，欢迎留言、交换友情链接！&nbsp;&nbsp;本页最佳浏览：IE 6.0 + 800×600 分辨率 ★★★
     </div>
   </div>
+  <!-- 导航 -->
   <nav class="tabs" id="tabs" aria-label="页面导航">
     <button type="button" data-tab="home" aria-selected="true">🏠 首页</button>
     <button type="button" data-tab="about" aria-selected="false">👤 关于我</button>
@@ -455,6 +497,7 @@ a:hover { color: var(--link-hover); }
     <button type="button" data-tab="links" aria-selected="false">🔗 友情链接</button>
   </nav>
   <div class="layout">
+    <!-- ================= 侧边栏 ================= -->
     <aside>
       <div class="panel">
         <div class="panel-title"><span class="deco">◆</span> 站主信息 <span class="deco">◆</span></div>
@@ -469,7 +512,7 @@ a:hover { color: var(--link-hover); }
           <li><b>星座：</b>【金牛座】</li>
           <li><b>爱好：</b>【动漫 / 音乐 / 游戏…】</li>
           <li><b>QQ：</b>【你的QQ号】</li>
-          <li><b>E‑mail：</b>【you@mail.com】</li>
+          <li><b>E-mail：</b>【you@mail.com】</li>
         </ul>
       </div>
       <div class="panel">
@@ -496,7 +539,9 @@ a:hover { color: var(--link-hover); }
         </div>
       </div>
     </aside>
+    <!-- ================= 主内容 ================= -->
     <main class="main">
+      <!-- 首页 -->
       <section class="tab-page" id="tab-home" data-page="home">
         <div class="hello">☆ 叮咚！欢迎光临我的小窝 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -504,13 +549,14 @@ a:hover { color: var(--link-hover); }
         <p>本站记录我的【日常生活 / 兴趣爱好 / 珍藏回忆】，也会不定期更新小作文和收藏。喜欢的话请到留言板给我留言，或者交换友情链接~</p>
         <h3 class="sec">✦ 最新更新 ✦</h3>
         <ul class="update-list">
-          <li><span class="date">2026‑08‑26</span>本站正式开张，欢迎光临！<span class="tag tag-new">NEW</span></li>
-          <li><span class="date">2026‑08‑25</span>整理【收藏夹】第一批内容上线</li>
-          <li><span class="date">2026‑08‑20</span>【相册】补充了几张照片</li>
+          <li><span class="date">2026-08-26</span>本站正式开张，欢迎光临！<span class="tag tag-new">NEW</span></li>
+          <li><span class="date">2026-08-25</span>整理【收藏夹】第一批内容上线</li>
+          <li><span class="date">2026-08-20</span>【相册】补充了几张照片</li>
         </ul>
         <h3 class="sec">✦ 站长留言 ✦</h3>
         <p>最近在追【keroro军曹】，每天蹲点等更新。有空也喜欢【散步 / 听歌 / 打游戏】。世界很大，能在这里相遇就是缘分，愿你天天开心！</p>
       </section>
+      <!-- 关于我 -->
       <section class="tab-page" id="tab-about" data-page="about" hidden>
         <div class="hello">☆ 关于我 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -526,6 +572,7 @@ a:hover { color: var(--link-hover); }
           <li><b>座右铭：</b>【___】</li>
         </ul>
       </section>
+      <!-- 我的兴趣 -->
       <section class="tab-page" id="tab-hobby" data-page="hobby" hidden>
         <div class="hello">☆ 我的兴趣 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -538,10 +585,11 @@ a:hover { color: var(--link-hover); }
         <h3 class="sec">📚 其他爱好</h3>
         <p>【看书、运动、手工、美食……想写什么都行。】</p>
       </section>
+      <!-- 相册 -->
       <section class="tab-page" id="tab-photo" data-page="photo" hidden>
         <div class="hello">☆ 我的相册 ☆</div>
         <div class="divider" aria-hidden="true"></div>
-        <p style="margin‑bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
+        <p style="margin-bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
         <div class="album-grid">
           <div class="photo">【照片1<br>占位】</div>
           <div class="photo">【照片2<br>占位】</div>
@@ -551,6 +599,7 @@ a:hover { color: var(--link-hover); }
           <div class="photo">【照片6<br>占位】</div>
         </div>
       </section>
+      <!-- 留言板 -->
       <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
         <div class="hello">☆ 留言板 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -563,12 +612,13 @@ a:hover { color: var(--link-hover); }
             <button type="submit" class="gb-btn">✍️ 提交留言</button>
           </form>
         </div>
-        <div id="gb-list" aria‑live="polite"></div>
+        <div id="gb-list" aria-live="polite"></div>
       </section>
+      <!-- 友情链接 -->
       <section class="tab-page" id="tab-links" data-page="links" hidden>
         <div class="hello">☆ 友情链接 ☆</div>
         <div class="divider" aria-hidden="true"></div>
-        <p style="margin‑bottom:10px;">这里放着我的朋友们的小站。想互换链接？去留言板找我！</p>
+        <p style="margin-bottom:10px;">这里放着我的朋友们的小站。想互换链接？去留言板找我！</p>
         <div>
           <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 1】</a>
           <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 2】</a>
@@ -582,8 +632,9 @@ a:hover { color: var(--link-hover); }
       </section>
     </main>
   </div>
+  <!-- 页脚 -->
   <footer class="footer">
-    <div>© 2006 ‑ 2026 <span class="copy">【你的昵称】</span> の小窝　|　本站共有 <b id="foot‑count">0</b> 人次访问</div>
+    <div>© 2006 - 2026 <span class="copy">【你的昵称】</span> の小窝　|　本站共有 <b id="foot-count">0</b> 人次访问</div>
     <div>建议使用 IE 6.0 或以上浏览器，最佳浏览效果 800×600</div>
     <div>本站由站长亲手打造，欢迎转载但请注明出处哦~</div>
     <div class="badges">
@@ -595,24 +646,24 @@ a:hover { color: var(--link-hover); }
   </footer>
 </div>
 <script>
-//====【新增弹窗函数，放在脚本最前面】====
-function closeLogin(){
-  document.getElementById('login-overlay').style.display='none';
+//=====新增：登录层关闭函数，同时复用原有的switchTab函数=====
+let tabs,pages;
+function enterSite(){
+  document.getElementById('loginOverlay').style.display="none";
 }
-window.switchTab=function(name){
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.tab-page'));
-  tabs.forEach(function (b) {
-    var on = b.getAttribute('data-tab') === name;
-    b.setAttribute('aria-selected', on ? 'true' : 'false');
-  });
-  pages.forEach(function (p) {
-    p.hidden = p.getAttribute('data-page') !== name;
-  });
+function switchTab(name) {
+    tabs.forEach(function (b) {
+      var on = b.getAttribute('data-tab') === name;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    pages.forEach(function (p) {
+      p.hidden = p.getAttribute('data-page') !== name;
+    });
 }
-//====【下面全部是你原来主页JS，完全未改动】====
+
 (function () {
   'use strict';
+  /* ============ 星空背景 ============ */
   (function stars() {
     var field = document.getElementById('starfield');
     var count = 90;
@@ -629,7 +680,8 @@ window.switchTab=function(name){
       field.appendChild(s);
     }
   })();
-  var KEY = 'retro‑visits';
+  /* ============ 访客计数器 ============ */
+  var KEY = 'retro-visits';
   var visits = 0;
   try {
     visits = parseInt(localStorage.getItem(KEY) || '0', 10) || 0;
@@ -651,12 +703,13 @@ window.switchTab=function(name){
       el.textContent = d;
       box.appendChild(el);
     });
-    var foot = document.getElementById('foot‑count');
+    var foot = document.getElementById('foot-count');
     if (foot) foot.textContent = visits;
-    var mc = document.getElementById('marquee‑count');
+    var mc = document.getElementById('marquee-count');
     if (mc) mc.textContent = visits;
   }
   renderCount();
+  /* ============ 时钟 + 在线时长 ============ */
   var t0 = Date.now();
   var clockEl = document.getElementById('clock');
   var onlineEl = document.getElementById('online');
@@ -668,14 +721,16 @@ window.switchTab=function(name){
   }
   tick();
   setInterval(tick, 1000);
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.tab‑page'));
+  /* ============ 标签页切换 ============ */
+  tabs = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
+  pages = Array.prototype.slice.call(document.querySelectorAll('.tab-page'));
   tabs.forEach(function (b) {
     b.addEventListener('click', function () {
-      switchTab(b.getAttribute('data‑tab'));
+      switchTab(b.getAttribute('data-tab'));
     });
   });
-  var GKEY = 'retro‑guestbook';
+  /* ============ 留言板（localStorage） ============ */
+  var GKEY = 'retro-guestbook';
   function loadMsgs() {
     try {
       var raw = localStorage.getItem(GKEY);
@@ -686,34 +741,34 @@ window.switchTab=function(name){
     try { localStorage.setItem(GKEY, JSON.stringify(msgs)); } catch (e) {}
   }
   function renderMsgs() {
-    var list = document.getElementById('gb‑list');
+    var list = document.getElementById('gb-list');
     var msgs = loadMsgs();
     if (!msgs.length) {
-      list.innerHTML = '<div class="gb‑empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
+      list.innerHTML = '<div class="gb-empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
       return;
     }
     list.innerHTML = '';
     msgs.forEach(function (m, idx) {
       var box = document.createElement('div');
-      box.className = 'gb‑msg';
+      box.className = 'gb-msg';
       var head = document.createElement('div');
-      head.className = 'gb‑head';
+      head.className = 'gb-head';
       var name = document.createElement('span');
-      name.className = 'gb‑name';
+      name.className = 'gb-name';
       name.textContent = m.name;
       var time = document.createElement('span');
-      time.className = 'gb‑time';
+      time.className = 'gb-time';
       time.textContent = m.time;
       head.appendChild(name);
       head.appendChild(time);
       var body = document.createElement('div');
-      body.className = 'gb‑body';
+      body.className = 'gb-body';
       body.textContent = m.msg;
       var del = document.createElement('button');
       del.type = 'button';
-      del.className = 'gb‑del';
+      del.className = 'gb-del';
       del.textContent = '✕ 删除';
-      del.setAttribute('aria‑label', '删除' + m.name + '的留言');
+      del.setAttribute('aria-label', '删除' + m.name + '的留言');
       del.addEventListener('click', function () {
         msgs.splice(idx, 1);
         saveMsgs(msgs);
@@ -726,11 +781,11 @@ window.switchTab=function(name){
     });
   }
   renderMsgs();
-  var gbForm = document.getElementById('gb‑form');
+  var gbForm = document.getElementById('gb-form');
   gbForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var nameInput = document.getElementById('gb‑name');
-    var msgInput = document.getElementById('gb‑msg');
+    var nameInput = document.getElementById('gb-name');
+    var msgInput = document.getElementById('gb-msg');
     var name = nameInput.value.trim();
     var msg = msgInput.value.trim();
     if (!name || !msg) return;
