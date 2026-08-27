@@ -29,75 +29,116 @@ body {
   background: #000020;
   overflow-x: hidden;
 }
-/* ----------【新增：登录索引遮罩层】---------- */
-#login-overlay{
+/* ===================== 新增：登录索引遮罩层（手机点击修复） ===================== */
+#loginOverlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.85);
   z-index:9999;
+  /* 壁纸背景 */
+  background: url(keroro1.jpg) center center / cover no-repeat fixed;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
+  padding:40px 15px;
+  touch-action: manipulation;
 }
-.login-container{
+#loginOverlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,32,0.35);
+  pointer-events:none; /* 关键：背景不拦截点击触摸 */
+}
+.login-panel{
+  position:relative;
+  z-index:2;
   width:320px;
-  height:580px;
+  min-height:580px;
   border:4px ridge #ffcc00;
-  background:#111144;
-  padding:25px;
+  background:rgba(17,17,68,0.88);
+  padding:26px 22px;
+  border-radius:10px;
+  box-shadow:0 0 30px rgba(0,140,255,0.45);
 }
-.login-title{
+.panel-title{
   text-align:center;
   font-size:26px;
   font-weight:bold;
   background:linear-gradient(90deg,red,#ff9900,yellow,lime,#00ccff,#9933ff);
   -webkit-background-clip:text;
+  background-clip:text;
   color:transparent;
-  animation: flash 1s infinite;
+  animation:flash 1s infinite;
+  margin-bottom:14px;
 }
 @keyframes flash{
   0%,100%{opacity:1;}
-  50%{opacity:0.7;}
+  50%{opacity:0.68;}
 }
-.login-marquee{
-  margin:15px 0;
+.marquee-box{
   color:#ffff66;
+  margin-bottom:24px;
 }
-.login-btn-wrap{
+.btn-enter{
   text-align:center;
-  margin-top:20px;
+  margin-bottom:36px;
 }
-.login-btn{
-  padding:8px 28px;
+.btn-enter button{
+  padding:9px 30px;
   font-size:18px;
+  font-weight:bold;
   border:3px outset #cccccc;
   background:#dddddd;
   cursor:pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
-.login-btn:active{
+.btn-enter button:active{
   border-style:inset;
 }
-.nav-index{
-  margin-top:40px;
+.site-index{
   border:2px inset #6699ff;
-  padding:15px;
+  padding:16px 14px;
 }
-.nav-index h4{
+.site-index h4{
   text-align:center;
-  margin-top:0;
   color:#ffcc66;
-}
-.nav-index a{
-  display:block;
-  color:#00ffff;
-  text-decoration:none;
-  margin:12px 0;
+  margin-bottom:14px;
   font-size:16px;
 }
-.nav-index a:hover{
+/* 索引按钮样式（替换a标签，兼容手机） */
+.site-index button{
+  display:block;
+  width:100%;
+  text-align:left;
+  color:#00ffff;
+  background:transparent;
+  border:none;
+  margin:12px 0;
+  font-size:15px;
+  cursor:pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  padding:2px 4px;
+}
+.site-index button:hover{
   color:#ffff00;
   text-decoration:underline;
 }
+.bottom-link{
+  margin-top:24px;
+  text-align:center;
+}
+.bottom-link button{
+  background:none;
+  border:none;
+  color:#00ffff;
+  cursor:pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  font-size:15px;
+}
+/* ============================================================== */
 /* ---------- 星空背景 ---------- */
 #starfield {
   position: fixed;
@@ -303,10 +344,9 @@ main.main { min-height: 480px; }
 .tab-page[hidden] { display: none !important; }
 .hello {
   font-size: 20px; color: var(--neon-yellow); margin-bottom: 10px;
-  animation: blink 2.2s steps(1) infinite;
+  animation: blink2 2.2s steps(1) infinite;
 }
 @keyframes blink2 { 50% { opacity: .45; } }
-.hello { animation: blink2 2.2s steps(1) infinite; }
 .divider {
   height: 8px; margin: 12px 0;
   background: repeating-linear-gradient(90deg,
@@ -416,32 +456,36 @@ a:hover { color: var(--link-hover); }
 /* 减少动效偏好 */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track, .top-banner h1, .star { animation: none !important; }
-  .hello, .b-new,.login-title { animation: none !important; }
+  .hello, .b-new { animation: none !important; }
 }
 </style>
 </head>
 <body>
-<!-- =========【嵌入的竖版登录索引弹窗】========= -->
-<div id="login-overlay">
-  <div class="login-container">
-    <div class="login-title">🔐 进入主页</div>
-    <div class="login-marquee">
-      <marquee scrollamount="3">欢迎来到本站 · 点击按钮即可进入</marquee>
+<!-- ==========登录索引遮罩层（修复手机点击，全部换成button）========== -->
+<div id="loginOverlay">
+  <div class="login-panel">
+    <div class="panel-title">🔐 keroro骑士团</div>
+    <div class="marquee-box">
+      <marquee scrollamount="3">欢迎光临，点击按钮进入本站</marquee>
     </div>
-    <div class="login-btn-wrap">
-      <button class="login-btn" onclick="closeLogin()">进 入 网 站</button>
+    <div class="btn-enter">
+      <button onclick="enterSite()">进 入 网 站</button>
     </div>
-    <div class="nav-index">
+    <div class="site-index">
       <h4>📋站点索引</h4>
-      <a href="#!" onclick="closeLogin();switchTab('home')">🏠 网站主页</a>
-      <a href="#!" onclick="closeLogin();switchTab('about')">👤 关于我</a>
-      <a href="#!" onclick="closeLogin();switchTab('hobby')">💖 我的兴趣</a>
-      <a href="#!" onclick="closeLogin();switchTab('photo')">🖼️ 个人相册</a>
-      <a href="#!" onclick="closeLogin();switchTab('guestbook')">📝 留言板</a>
-      <a href="#!" onclick="closeLogin();switchTab('links')">🔗友情链接</a>
+      <button onclick="enterSite();switchTab('home');">🏠 网站主页</button>
+      <button onclick="enterSite();switchTab('about');">👤 关于我</button>
+      <button onclick="enterSite();switchTab('hobby');">💖 我的兴趣</button>
+      <button onclick="enterSite();switchTab('photo');">🖼️ 我的相册</button>
+      <button onclick="enterSite();switchTab('guestbook');">📝 留言板</button>
+      <button onclick="enterSite();switchTab('links');">🔗 友情链接</button>
+    </div>
+    <div class="bottom-link">
+      <button onclick="enterSite();">← 直接前往主页</button>
     </div>
   </div>
 </div>
+<!-- ================================================== -->
 <!-- 星空背景 -->
 <div id="starfield" aria-hidden="true"></div>
 <div class="page">
@@ -470,11 +514,11 @@ a:hover { color: var(--link-hover); }
     <!-- ================= 侧边栏 ================= -->
     <aside>
       <div class="panel">
-        <div class="panel-title"><span class="deco">◆</span> 站主信息 <span class="deco">◆</span></div>
+        <div class="panel-title"><span class="deco">◆</span> 站长 <span class="deco">◆</span></div>
         <div class="avatar-box">
           <div class="avatar">【<img src="kyouko.jpg" alt="头像" width="120" height="120" style="border:3px ridge #ffcc00;">】</div>
           <div class="nick">【keroro】</div>
-          <div class="sign">“【你的个性签名】”</div>
+          <div class="sign">“【萌即是正义】”</div>
         </div>
         <ul class="info-list">
           <li><b>昵称：</b>【keroro】</li>
@@ -482,60 +526,60 @@ a:hover { color: var(--link-hover); }
           <li><b>星座：</b>【金牛座】</li>
           <li><b>爱好：</b>【动漫 / 音乐 / 游戏…】</li>
           <li><b>QQ：</b>【你的QQ号】</li>
-          <li><b>E-mail：</b>【you@mail.com】</li>
+          <li><b>E‑mail：</b>【you@mail.com】</li>
         </ul>
       </div>
       <div class="panel">
         <div class="panel-title"><span class="deco">◆</span> 访客统计 <span class="deco">◆</span></div>
         <div class="counter-box">
           <div>您是本站第</div>
-          <div class="odometer" id="odometer" aria-label="访客计数器"></div>
+          <div class="odometer" id="odometer" aria‑label="访客计数器"></div>
           <div>位访客</div>
           <small>点击量每天都在涨哦！</small>
         </div>
       </div>
       <div class="panel">
         <div class="panel-title"><span class="deco">◆</span> 在线信息 <span class="deco">◆</span></div>
-        <div class="clock-box">现在时间：<b id="clock">--:--:--</b></div>
-        <div class="online-timer">您已在本站逗留<br><b id="online">0</b> 秒</div>
+        <div class="clock‑box">现在时间：<b id="clock">--:--:--</b></div>
+        <div class="online‑timer">您已在本站逗留<br><b id="online">0</b> 秒</div>
       </div>
       <div class="panel">
         <div class="panel-title"><span class="deco">◆</span> 站内公告 <span class="deco">◆</span></div>
-        <div class="bulletin panel-body">
-          <div class="b-item">🎉 本站全新改版，闪亮登场！<span class="b-new">NEW</span></div>
-          <div class="b-item">📮 欢迎来留言板灌水聊天~</div>
-          <div class="b-item">🤝 长期征集友情链接，先留言后互换！</div>
-          <div class="b-item">💾 资料整理中，敬请期待……</div>
+        <div class="bulletin panel‑body">
+          <div class="b‑item">🎉 本站全新改版，闪亮登场！<span class="b‑new">NEW</span></div>
+          <div class="b‑item">📮 欢迎来留言板灌水聊天~</div>
+          <div class="b‑item">🤝 长期征集友情链接，先留言后互换！</div>
+          <div class="b‑item">💾 资料整理中，敬请期待……</div>
         </div>
       </div>
     </aside>
     <!-- ================= 主内容 ================= -->
     <main class="main">
       <!-- 首页 -->
-      <section class="tab-page" id="tab-home" data-page="home">
+      <section class="tab‑page" id="tab‑home" data‑page="home">
         <div class="hello">☆ 叮咚！欢迎光临我的小窝 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
-        <p>你好呀，欢迎来到【你的昵称】的个人主页！这里是 2000 年代风格的互联网小天地，欢迎随便逛逛、留下脚印。</p>
+        <div class="divider" aria‑hidden="true"></div>
+        <p>你好呀，欢迎来到【keroro】的个人主页！这里是 2000 年代风格的互联网小天地，欢迎随便逛逛、留下脚印。</p>
         <p>本站记录我的【日常生活 / 兴趣爱好 / 珍藏回忆】，也会不定期更新小作文和收藏。喜欢的话请到留言板给我留言，或者交换友情链接~</p>
         <h3 class="sec">✦ 最新更新 ✦</h3>
-        <ul class="update-list">
-          <li><span class="date">2026-08-26</span>本站正式开张，欢迎光临！<span class="tag tag-new">NEW</span></li>
-          <li><span class="date">2026-08-25</span>整理【收藏夹】第一批内容上线</li>
-          <li><span class="date">2026-08-20</span>【相册】补充了几张照片</li>
+        <ul class="update‑list">
+          <li><span class="date">2026‑08‑26</span>本站正式开张，欢迎光临！<span class="tag tag‑new">NEW</span></li>
+          <li><span class="date">2026‑08‑25</span>整理【收藏夹】第一批内容上线</li>
+          <li><span class="date">2026‑08‑20</span>【相册】补充了几张照片</li>
         </ul>
         <h3 class="sec">✦ 站长留言 ✦</h3>
         <p>最近在追【keroro军曹】，每天蹲点等更新。有空也喜欢【散步 / 听歌 / 打游戏】。世界很大，能在这里相遇就是缘分，愿你天天开心！</p>
       </section>
       <!-- 关于我 -->
-      <section class="tab-page" id="tab-about" data-page="about" hidden>
+      <section class="tab‑page" id="tab‑about" data‑page="about" hidden>
         <div class="hello">☆ 关于我 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
+        <div class="divider" aria‑hidden="true"></div>
         <h3 class="sec">◆ 我是谁</h3>
         <p>【在这里写一段自我介绍：你是谁、做什么的、性格如何。例如：大家好，我是【昵称】，一名【学生】，平时喜欢……】</p>
         <h3 class="sec">◆ 我的故事</h3>
         <p>【在这里写下你的经历或想分享的故事：怎么开始接触网络/兴趣爱好、最难忘的一件事、未来的小目标等等。】</p>
         <h3 class="sec">◆ 小档案</h3>
-        <ul class="info-list">
+        <ul class="info‑list">
           <li><b>生日：</b>【月 / 日】</li>
           <li><b>最喜欢的事：</b>【___】</li>
           <li><b>最想去的地方：</b>【___】</li>
@@ -543,9 +587,9 @@ a:hover { color: var(--link-hover); }
         </ul>
       </section>
       <!-- 我的兴趣 -->
-      <section class="tab-page" id="tab-hobby" data-page="hobby" hidden>
+      <section class="tab‑page" id="tab‑hobby" data‑page="hobby" hidden>
         <div class="hello">☆ 我的兴趣 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
+        <div class="divider" aria‑hidden="true"></div>
         <h3 class="sec">📺 动漫 / 影视</h3>
         <p>【列出你喜欢的动漫、剧集或电影，比如：最爱《___》、最近在追《___》……】</p>
         <h3 class="sec">🎵 音乐</h3>
@@ -556,11 +600,11 @@ a:hover { color: var(--link-hover); }
         <p>【看书、运动、手工、美食……想写什么都行。】</p>
       </section>
       <!-- 相册 -->
-      <section class="tab-page" id="tab-photo" data-page="photo" hidden>
+      <section class="tab‑page" id="tab‑photo" data‑page="photo" hidden>
         <div class="hello">☆ 我的相册 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
-        <p style="margin-bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
-        <div class="album-grid">
+        <div class="divider" aria‑hidden="true"></div>
+        <p style="margin‑bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
+        <div class="album‑grid">
           <div class="photo">【照片1<br>占位】</div>
           <div class="photo">【照片2<br>占位】</div>
           <div class="photo">【照片3<br>占位】</div>
@@ -570,31 +614,31 @@ a:hover { color: var(--link-hover); }
         </div>
       </section>
       <!-- 留言板 -->
-      <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
+      <section class="tab‑page" id="tab‑guestbook" data‑page="guestbook" hidden>
         <div class="hello">☆ 留言板 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
-        <div class="gb-form">
-          <form id="gb-form" autocomplete="off">
-            <label for="gb-name">你的大名：</label>
-            <input type="text" id="gb-name" maxlength="20" placeholder="【这里填你的昵称】" required>
-            <label for="gb-msg">留言内容：</label>
-            <textarea id="gb-msg" rows="3" maxlength="500" placeholder="想对我说点什么？" required></textarea>
-            <button type="submit" class="gb-btn">✍️ 提交留言</button>
+        <div class="divider" aria‑hidden="true"></div>
+        <div class="gb‑form">
+          <form id="gb‑form" autocomplete="off">
+            <label for="gb‑name">你的大名：</label>
+            <input type="text" id="gb‑name" maxlength="20" placeholder="【这里填你的昵称】" required>
+            <label for="gb‑msg">留言内容：</label>
+            <textarea id="gb‑msg" rows="3" maxlength="500" placeholder="想对我说点什么？" required></textarea>
+            <button type="submit" class="gb‑btn">✍️ 提交留言</button>
           </form>
         </div>
-        <div id="gb-list" aria-live="polite"></div>
+        <div id="gb‑list" aria‑live="polite"></div>
       </section>
       <!-- 友情链接 -->
-      <section class="tab-page" id="tab-links" data-page="links" hidden>
+      <section class="tab‑page" id="tab‑links" data‑page="links" hidden>
         <div class="hello">☆ 友情链接 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
-        <p style="margin-bottom:10px;">这里放着我的朋友们的小站。想互换链接？去留言板找我！</p>
+        <div class="divider" aria‑hidden="true"></div>
+        <p style="margin‑bottom:10px;">这里放着我的朋友们的小站。想互换链接？去留言板找我！</p>
         <div>
-          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 1】</a>
-          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 2】</a>
-          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 3】</a>
-          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【常逛的论坛】</a>
-          <a class="link-btn" href="https://www.example.com" target="_blank" rel="noopener">【喜欢的网站】</a>
+          <a class="link‑btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 1】</a>
+          <a class="link‑btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 2】</a>
+          <a class="link‑btn" href="https://www.example.com" target="_blank" rel="noopener">【好友小站 3】</a>
+          <a class="link‑btn" href="https://www.example.com" target="_blank" rel="noopener">【常逛的论坛】</a>
+          <a class="link‑btn" href="https://www.example.com" target="_blank" rel="noopener">【喜欢的网站】</a>
         </div>
         <h3 class="sec">◆ 交换链接须知</h3>
         <p>本站链接代码：<br>
@@ -604,7 +648,7 @@ a:hover { color: var(--link-hover); }
   </div>
   <!-- 页脚 -->
   <footer class="footer">
-    <div>© 2006 - 2026 <span class="copy">【你的昵称】</span> の小窝　|　本站共有 <b id="foot-count">0</b> 人次访问</div>
+    <div>© 2006 ‑ 2026 <span class="copy">【keroro骑士团】</span> 本部　|　本站共有 <b id="foot‑count">0</b> 人次访问</div>
     <div>建议使用 IE 6.0 或以上浏览器，最佳浏览效果 800×600</div>
     <div>本站由站长亲手打造，欢迎转载但请注明出处哦~</div>
     <div class="badges">
@@ -616,11 +660,20 @@ a:hover { color: var(--link-hover); }
   </footer>
 </div>
 <script>
-//====新增关闭登录弹窗函数====
-function closeLogin(){
-  document.getElementById('login-overlay').style.display='none';
+//=====新增：登录层关闭函数，同时复用原有的switchTab函数=====
+let tabs,pages;
+function enterSite(){
+  document.getElementById('loginOverlay').style.display="none";
 }
-
+function switchTab(name) {
+    tabs.forEach(function (b) {
+      var on = b.getAttribute('data‑tab') === name;
+      b.setAttribute('aria‑selected', on ? 'true' : 'false');
+    });
+    pages.forEach(function (p) {
+      p.hidden = p.getAttribute('data‑page') !== name;
+    });
+}
 (function () {
   'use strict';
   /* ============ 星空背景 ============ */
@@ -641,7 +694,7 @@ function closeLogin(){
     }
   })();
   /* ============ 访客计数器 ============ */
-  var KEY = 'retro-visits';
+  var KEY = 'retro‑visits';
   var visits = 0;
   try {
     visits = parseInt(localStorage.getItem(KEY) || '0', 10) || 0;
@@ -663,9 +716,9 @@ function closeLogin(){
       el.textContent = d;
       box.appendChild(el);
     });
-    var foot = document.getElementById('foot-count');
+    var foot = document.getElementById('foot‑count');
     if (foot) foot.textContent = visits;
-    var mc = document.getElementById('marquee-count');
+    var mc = document.getElementById('marquee‑count');
     if (mc) mc.textContent = visits;
   }
   renderCount();
@@ -682,24 +735,15 @@ function closeLogin(){
   tick();
   setInterval(tick, 1000);
   /* ============ 标签页切换 ============ */
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
-  var pages = Array.prototype.slice.call(document.querySelectorAll('.tab-page'));
-  window.switchTab=function(name){
-    tabs.forEach(function (b) {
-      var on = b.getAttribute('data-tab') === name;
-      b.setAttribute('aria-selected', on ? 'true' : 'false');
-    });
-    pages.forEach(function (p) {
-      p.hidden = p.getAttribute('data-page') !== name;
-    });
-  }
+  tabs = Array.prototype.slice.call(document.querySelectorAll('#tabs button'));
+  pages = Array.prototype.slice.call(document.querySelectorAll('.tab‑page'));
   tabs.forEach(function (b) {
     b.addEventListener('click', function () {
-      switchTab(b.getAttribute('data-tab'));
+      switchTab(b.getAttribute('data‑tab'));
     });
   });
   /* ============ 留言板（localStorage） ============ */
-  var GKEY = 'retro-guestbook';
+  var GKEY = 'retro‑guestbook';
   function loadMsgs() {
     try {
       var raw = localStorage.getItem(GKEY);
@@ -710,34 +754,34 @@ function closeLogin(){
     try { localStorage.setItem(GKEY, JSON.stringify(msgs)); } catch (e) {}
   }
   function renderMsgs() {
-    var list = document.getElementById('gb-list');
+    var list = document.getElementById('gb‑list');
     var msgs = loadMsgs();
     if (!msgs.length) {
-      list.innerHTML = '<div class="gb-empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
+      list.innerHTML = '<div class="gb‑empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
       return;
     }
     list.innerHTML = '';
     msgs.forEach(function (m, idx) {
       var box = document.createElement('div');
-      box.className = 'gb-msg';
+      box.className = 'gb‑msg';
       var head = document.createElement('div');
-      head.className = 'gb-head';
+      head.className = 'gb‑head';
       var name = document.createElement('span');
-      name.className = 'gb-name';
+      name.className = 'gb‑name';
       name.textContent = m.name;
       var time = document.createElement('span');
-      time.className = 'gb-time';
+      time.className = 'gb‑time';
       time.textContent = m.time;
       head.appendChild(name);
       head.appendChild(time);
       var body = document.createElement('div');
-      body.className = 'gb-body';
+      body.className = 'gb‑body';
       body.textContent = m.msg;
       var del = document.createElement('button');
       del.type = 'button';
-      del.className = 'gb-del';
+      del.className = 'gb‑del';
       del.textContent = '✕ 删除';
-      del.setAttribute('aria-label', '删除' + m.name + '的留言');
+      del.setAttribute('aria‑label', '删除' + m.name + '的留言');
       del.addEventListener('click', function () {
         msgs.splice(idx, 1);
         saveMsgs(msgs);
@@ -750,11 +794,11 @@ function closeLogin(){
     });
   }
   renderMsgs();
-  var gbForm = document.getElementById('gb-form');
+  var gbForm = document.getElementById('gb‑form');
   gbForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var nameInput = document.getElementById('gb-name');
-    var msgInput = document.getElementById('gb-msg');
+    var nameInput = document.getElementById('gb‑name');
+    var msgInput = document.getElementById('gb‑msg');
     var name = nameInput.value.trim();
     var msg = msgInput.value.trim();
     if (!name || !msg) return;
