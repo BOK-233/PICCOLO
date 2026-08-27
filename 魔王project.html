@@ -125,7 +125,14 @@ body {
 }
 .marquee-track em { font-style: normal; color: var(--neon-pink); }
 @keyframes marquee { to { transform: translateX(-100%); } }
-
+<!-- ===== 前置索引 开始 ===== -->
+<div style="text-align:center;margin:12px 0;">
+    <input type="button" value="👤 关于我" onclick="location.href='#about'">
+    <input type="button" value="📷 相册" onclick="location.href='#gallery'">
+    <input type="button" value="🎮 爱好" onclick="location.href='#hobby'">
+    <input type="button" value="💬 留言板" onclick="location.href='#guestbook'">
+</div>
+<!-- ===== 前置索引 结束 ===== -->
 /* ---------- 导航栏 ---------- */
 nav.tabs {
   display: flex;
@@ -479,7 +486,7 @@ a:hover { color: var(--link-hover); }
 
       <!-- 关于我 -->
       <section class="tab-page" id="tab-about" data-page="about" hidden>
-        <div class="hello">☆ 关于我 ☆</div>
+        <div id="about" class="hello">☆ 关于我 ☆</div>
         <div class="divider" aria-hidden="true"></div>
         <h3 class="sec">◆ 我是谁</h3>
         <p>【在这里写一段自我介绍：你是谁、做什么的、性格如何。例如：大家好，我是【昵称】，一名【身份/职业】，平时喜欢……】</p>
@@ -496,7 +503,7 @@ a:hover { color: var(--link-hover); }
 
       <!-- 我的兴趣 -->
       <section class="tab-page" id="tab-hobby" data-page="hobby" hidden>
-        <div class="hello">☆ 我的兴趣 ☆</div>
+        <div id="about" class="hello">☆ 我的兴趣 ☆</div>
         <div class="divider" aria-hidden="true"></div>
         <h3 class="sec">📺 动漫 / 影视</h3>
         <p>【列出你喜欢的动漫、剧集或电影，比如：最爱《___》、最近在追《___》……】</p>
@@ -510,7 +517,7 @@ a:hover { color: var(--link-hover); }
 
       <!-- 相册 -->
       <section class="tab-page" id="tab-photo" data-page="photo" hidden>
-        <div class="hello">☆ 我的相册 ☆</div>
+        <div id="about" class="hello">☆ 我的相册 ☆</div>
         <div class="divider" aria-hidden="true"></div>
         <p style="margin-bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
         <div class="album-grid">
@@ -525,7 +532,7 @@ a:hover { color: var(--link-hover); }
 
       <!-- 留言板 -->
       <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
-        <div class="hello">☆ 留言板 ☆</div>
+        <div id="about" class="hello">☆ 留言板 ☆</div>
         <div class="divider" aria-hidden="true"></div>
         <div class="gb-form">
           <form id="gb-form" autocomplete="off">
