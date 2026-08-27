@@ -29,12 +29,11 @@ body {
   background: #000020;
   overflow-x: hidden;
 }
-/* ===================== 新增：登录索引遮罩层（手机点击修复） ===================== */
+/* ===================== 登录索引遮罩层（修复手机点击+切换标签bug） ===================== */
 #loginOverlay{
   position:fixed;
   inset:0;
   z-index:9999;
-  /* 壁纸背景 */
   background: url(keroro1.jpg) center center / cover no-repeat fixed;
   display:flex;
   justify-content:center;
@@ -47,7 +46,7 @@ body {
   position:absolute;
   inset:0;
   background:rgba(0,0,32,0.35);
-  pointer-events:none; /* 关键：背景不拦截点击触摸 */
+  pointer-events:none;
 }
 .login-panel{
   position:relative;
@@ -106,7 +105,6 @@ body {
   margin-bottom:14px;
   font-size:16px;
 }
-/* 索引按钮样式（替换a标签，兼容手机） */
 .site-index button{
   display:block;
   width:100%;
@@ -461,7 +459,7 @@ a:hover { color: var(--link-hover); }
 </style>
 </head>
 <body>
-<!-- ==========登录索引遮罩层（修复手机点击，全部换成button）========== -->
+<!-- ==========登录索引遮罩层【修改按钮调用goAndSwitch】========== -->
 <div id="loginOverlay">
   <div class="login-panel">
     <div class="panel-title">🔐 keroro骑士团</div>
@@ -469,19 +467,19 @@ a:hover { color: var(--link-hover); }
       <marquee scrollamount="3">欢迎光临，点击按钮进入本站</marquee>
     </div>
     <div class="btn-enter">
-      <button onclick="enterSite()">进 入 网 站</button>
+      <button onclick="goAndSwitch('home');">进 入 网 站</button>
     </div>
     <div class="site-index">
       <h4>📋站点索引</h4>
-      <button onclick="enterSite();switchTab('home');">🏠 网站主页</button>
-      <button onclick="enterSite();switchTab('about');">👤 关于我</button>
-      <button onclick="enterSite();switchTab('hobby');">💖 我的兴趣</button>
-      <button onclick="enterSite();switchTab('photo');">🖼️ 我的相册</button>
-      <button onclick="enterSite();switchTab('guestbook');">📝 留言板</button>
-      <button onclick="enterSite();switchTab('links');">🔗 友情链接</button>
+      <button onclick="goAndSwitch('home');">🏠 网站主页</button>
+      <button onclick="goAndSwitch('about');">👤 关于我</button>
+      <button onclick="goAndSwitch('hobby');">💖 我的兴趣</button>
+      <button onclick="goAndSwitch('photo');">🖼️ 我的相册</button>
+      <button onclick="goAndSwitch('guestbook');">📝 留言板</button>
+      <button onclick="goAndSwitch('links');">🔗 友情链接</button>
     </div>
     <div class="bottom-link">
-      <button onclick="enterSite();">← 直接前往主页</button>
+      <button onclick="goAndSwitch('home');">← 直接前往主页</button>
     </div>
   </div>
 </div>
@@ -660,11 +658,18 @@ a:hover { color: var(--link-hover); }
   </footer>
 </div>
 <script>
-//=====新增：登录层关闭函数，同时复用原有的switchTab函数=====
 let tabs,pages;
-function enterSite(){
+
+//【新封装统一入口，解决手机索引点了不切换标签】
+function goAndSwitch(tabName){
+  //第一步关闭登录遮罩
   document.getElementById('loginOverlay').style.display="none";
+  //微小延迟，等页面渲染完毕再切换标签，修复移动端bug
+  setTimeout(function(){
+      switchTab(tabName);
+  },20);
 }
+
 function switchTab(name) {
     tabs.forEach(function (b) {
       var on = b.getAttribute('data‑tab') === name;
@@ -674,6 +679,7 @@ function switchTab(name) {
       p.hidden = p.getAttribute('data‑page') !== name;
     });
 }
+
 (function () {
   'use strict';
   /* ============ 星空背景 ============ */
