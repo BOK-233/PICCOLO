@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>欢迎光临 ★【keroro骑士团】★</title>
+<!-- 预加载登录壁纸，提升加载速度 -->
+<link rel="preload" as="image" href="keroro1.webp" fetchpriority="high">
 <style>
 /* ============================================================
    2000年代 旧互联网个人主页风 —— 全部风格内联，单文件可运行
@@ -29,12 +31,17 @@ body {
   background: #000020;
   overflow-x: hidden;
 }
-/* ===================== 登录索引遮罩层（修复手机点击+切换标签bug） ===================== */
+/* ===================== 登录索引遮罩层【手机+壁纸加载优化】 ===================== */
 #loginOverlay{
   position:fixed;
   inset:0;
   z-index:9999;
-  background: url(keroro1.jpg) center center / cover no-repeat fixed;
+  background-image: url(keroro1.webp);
+  background-color:#080828; /*兜底深色底色，壁纸未加载时不黑屏 */
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
   display:flex;
   justify-content:center;
   align-items:flex-start;
@@ -46,12 +53,13 @@ body {
   position:absolute;
   inset:0;
   background:rgba(0,0,32,0.35);
-  pointer-events:none;
+  pointer-events:none; /*关键：背景遮罩不再拦截触摸点击 */
 }
 .login-panel{
   position:relative;
   z-index:2;
   width:320px;
+  max-width:calc(100vw - 30px); /*手机小屏幕自适应，不超出屏幕 */
   min-height:580px;
   border:4px ridge #ffcc00;
   background:rgba(17,17,68,0.88);
@@ -105,6 +113,7 @@ body {
   margin-bottom:14px;
   font-size:16px;
 }
+/* 全部改为button，修复移动端点击失效 */
 .site-index button{
   display:block;
   width:100%;
@@ -245,6 +254,8 @@ nav.tabs button {
   border-radius: 8px;
   cursor: pointer;
   transition: transform .08s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 nav.tabs button:hover { filter: brightness(1.15); }
 nav.tabs button:active { transform: translateY(1px); border-style: inset; }
@@ -459,7 +470,7 @@ a:hover { color: var(--link-hover); }
 </style>
 </head>
 <body>
-<!-- ==========登录索引遮罩层【修改按钮调用goAndSwitch】========== -->
+<!-- ==========登录索引遮罩层【全部改为button，调用goAndSwitch】========== -->
 <div id="loginOverlay">
   <div class="login-panel">
     <div class="panel-title">🔐 keroro骑士团</div>
@@ -561,6 +572,7 @@ a:hover { color: var(--link-hover); }
         <p>本站记录我的【日常生活 / 兴趣爱好 / 珍藏回忆】，也会不定期更新小作文和收藏。喜欢的话请到留言板给我留言，或者交换友情链接~</p>
         <h3 class="sec">✦ 最新更新 ✦</h3>
         <ul class="update‑list">
+          <li><span class="date">2026‑08‑28</span>【优化】修复移动端索引点击BUG；壁纸增加预加载与底色兜底，改善加载慢闪烁<span class="tag tag‑new">NEW</span></li>
           <li><span class="date">2026‑08‑26</span>本站正式开张，欢迎光临！<span class="tag tag‑new">NEW</span></li>
           <li><span class="date">2026‑08‑25</span>整理【收藏夹】第一批内容上线</li>
           <li><span class="date">2026‑08‑20</span>【相册】补充了几张照片</li>
@@ -658,13 +670,15 @@ a:hover { color: var(--link-hover); }
   </footer>
 </div>
 <script>
+//壁纸预缓存，后台加载图片，改善首次打开速度
+const preloadWall = new Image();
+preloadWall.src = "keroro1.webp";
+
 let tabs,pages;
 
-//【新封装统一入口，解决手机索引点了不切换标签】
+//统一入口：先关闭登录遮罩，微小延时再切换标签，修复移动端时序BUG
 function goAndSwitch(tabName){
-  //第一步关闭登录遮罩
   document.getElementById('loginOverlay').style.display="none";
-  //微小延迟，等页面渲染完毕再切换标签，修复移动端bug
   setTimeout(function(){
       switchTab(tabName);
   },20);
