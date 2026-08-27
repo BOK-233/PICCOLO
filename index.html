@@ -1,1 +1,296 @@
-<p>魔王</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>我的怀旧个人主页</title>
+<style>
+*{box-sizing:border-box;}
+body{
+    margin:0;
+    padding:15px;
+    background-color:#000033;
+    color:#ffffff;
+    font-family:"SimSun","宋体",sans-serif;
+    overflow-x:hidden;
+}
+/*星空容器*/
+#starfield{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+}
+.star{
+    position:absolute;
+    background:#ffffff;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    0%{opacity:0.2;}
+    100%{opacity:1;}
+}
+.wrap{
+    max-width:900px;
+    margin:0 auto;
+}
+.header{
+    text-align:center;
+    margin-bottom:10px;
+}
+.header h1{
+    color:#ffff00;
+    text-shadow:2px 2px #ff0000;
+}
+/* 前置索引栏 怀旧样式 */
+.index-bar{
+    background:#000066;
+    color:#ffff00;
+    border:3px outset #ccccff;
+    padding:8px;
+    text-align:center;
+    margin:12px 0;
+}
+.index-bar a{
+    color:#00ffff;
+    margin:0 8px;
+    text-decoration:none;
+}
+.index-bar a:hover{
+    color:#ff9900;
+    text-decoration:underline;
+}
+.nav-area{
+    text-align:center;
+    margin:15px 0;
+}
+.nav-area button{
+    font-family:"SimSun";
+    padding:6px 12px;
+    margin:2px;
+    font-size:14px;
+}
+.main-container{
+    display:flex;
+    gap:15px;
+}
+.sidebar{
+    width:220px;
+}
+.sidebar-box{
+    border:3px ridge #ffcc00;
+    background:#000044;
+    padding:12px;
+    margin-bottom:15px;
+}
+.avatar{
+    text-align:center;
+    margin:8px 0;
+}
+.content-area{
+    flex:1;
+}
+.tab-page{
+    display:none;
+    border:3px ridge #ffcc00;
+    background:#000044;
+    padding:15px;
+}
+.tab-page.active{
+    display:block;
+}
+.guest-item{
+    border:1px solid #88aaff;
+    padding:8px;
+    margin:8px 0;
+}
+footer{
+    text-align:center;
+    margin-top:30px;
+    font-size:13px;
+    color:#aaaaaa;
+}
+</style>
+</head>
+<body>
+<div id="starfield"></div>
+<div class="wrap">
+    <div class="header">
+        <h1>🌈【你的站点名字】🌈</h1>
+    </div>
+
+    <!--跑马灯-->
+    <marquee scrollamount="3">欢迎来到本站！很高兴你的到来~</marquee>
+
+    <!-- ==========【新增前置索引，放在此处】========== -->
+    <div class="index-bar">
+        <strong>📋站点索引｜快速跳转：</strong>
+        <a href="#about">关于我</a> |
+        <a href="#gallery">相册</a> |
+        <a href="#hobby">爱好</a> |
+        <a href="#guestbook">留言板</a>
+    </div>
+    <!-- ==========索引结束========== -->
+
+    <div class="nav-area">
+        <button onclick="openTab('home')">首页</button>
+        <button onclick="openTab('about')">关于我</button>
+        <button onclick="openTab('gallery')">相册</button>
+        <button onclick="openTab('hobby')">爱好</button>
+        <button onclick="openTab('links')">友情链接</button>
+        <button onclick="openTab('guestbook')">留言板</button>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-box">
+                <h3>👤 站长档案</h3>
+                <div class="avatar">
+                    <!--头像位置，改为 avatar.jpg 即可显示图片-->
+                    头像占位
+                </div>
+                <p>昵称：【你的昵称】</p>
+                <p>所在地：【城市】</p>
+                <p>爱好：【爱好】</p>
+            </div>
+            <div class="sidebar-box">
+                <h3>📊 访客统计</h3>
+                <p>访问次数：<span id="counter">000001</span></p>
+                <p id="clock"></p>
+                <p>在线秒数：<span id="onlinesec">0</span></p>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div id="home" class="tab-page active">
+                <h2>🏠 欢迎来到首页</h2>
+                <p>欢迎来到我的怀旧小站~</p>
+            </div>
+
+            <div id="about" class="tab-page">
+                <h2 id="about">👤 关于我</h2>
+                <p>这里填写自我介绍</p>
+            </div>
+
+            <div id="gallery" class="tab-page">
+                <h2 id="gallery">📷 相册</h2>
+                <p>相册内容</p>
+            </div>
+
+            <div id="hobby" class="tab-page">
+                <h2 id="hobby">🎮 爱好</h2>
+                <p>爱好相关内容</p>
+            </div>
+
+            <div id="links" class="tab-page">
+                <h2>🔗友情链接</h2>
+                <p>链接列表</p>
+            </div>
+
+            <div id="guestbook" class="tab-page">
+                <h2 id="guestbook">💬留言板</h2>
+                <div>
+                    <input type="text" id="gbname" placeholder="昵称">
+                    <br>
+                    <textarea id="gbmsg" placeholder="留言内容" rows="4" style="width:100%;margin-top:5px;"></textarea>
+                    <br>
+                    <button onclick="addGuest()">提交留言</button>
+                </div>
+                <div id="gbList"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 怀旧个人主页</p>
+    </footer>
+</div>
+
+<script>
+//生成闪烁星星
+function createStar(){
+    const sf=document.getElementById("starfield");
+    for(let i=0;i<90;i++){
+        const s=document.createElement("div");
+        s.classList.add("star");
+        const size=Math.random()*2+1;
+        s.style.width=size+"px";
+        s.style.height=size+"px";
+        s.style.left=Math.random()*100+"%";
+        s.style.top=Math.random()*100+"%";
+        sf.appendChild(s);
+    }
+}
+createStar();
+
+//标签切换
+function openTab(tabId){
+    document.querySelectorAll(".tab-page").forEach(el=>el.classList.remove("active"));
+    document.getElementById(tabId).classList.add("active");
+}
+
+//访客计数器 localStorage
+if(!localStorage.getItem("visit")){
+    localStorage.setItem("visit","1");
+}
+let num=parseInt(localStorage.getItem("visit"))+1;
+localStorage.setItem("visit",num.toString());
+document.getElementById("counter").innerText=String(num).padStart(6,'0');
+
+//时钟
+function updateClock(){
+    const now=new Date();
+    document.getElementById("clock").innerText=now.toLocaleString();
+}
+setInterval(updateClock,1000);
+updateClock();
+
+//在线计时
+let onlineTime=0;
+setInterval(()=>{
+    onlineTime++;
+    document.getElementById("onlinesec").innerText=onlineTime;
+},1000);
+
+//留言板
+function loadGuest(){
+    const raw=localStorage.getItem("guestbook");
+    return raw?JSON.parse(raw):[];
+}
+function saveGuest(arr){
+    localStorage.setItem("guestbook",JSON.stringify(arr));
+}
+function renderGuest(){
+    const list=loadGuest();
+    const wrap=document.getElementById("gbList");
+    wrap.innerHTML="";
+    list.forEach((item,idx)=>{
+        const div=document.createElement("div");
+        div.className="guest-item";
+        div.innerHTML=`<strong>${item.name}</strong>：${item.msg} <button onclick="delG(${idx})">删除</button>`;
+        wrap.appendChild(div);
+    });
+}
+function addGuest(){
+    const name=document.getElementById("gbname").value.trim();
+    const msg=document.getElementById("gbmsg").value.trim();
+    if(!name||!msg){alert("昵称和留言不能为空");return;}
+    const arr=loadGuest();
+    arr.push({name,msg});
+    saveGuest(arr);
+    renderGuest();
+    document.getElementById("gbname").value="";
+    document.getElementById("gbmsg").value="";
+}
+function delG(i){
+    const arr=loadGuest();
+    arr.splice(i,1);
+    saveGuest(arr);
+    renderGuest();
+}
+renderGuest();
+</script>
+</body>
+</html>
