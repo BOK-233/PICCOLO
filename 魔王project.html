@@ -907,10 +907,12 @@ function goAndSwitch(tabName){
 
     // ===在这里填写你的歌曲列表，修改文件名和歌曲显示名称===
     const musicList = [
-      {src:"./bgm1.mp3",name:"曲目一 keroro BGM"},
-      {src:"./bgm2.mp3",name:"曲目二 复古氛围"},
-      {src:"./bgm3.mp3",name:"曲目三 休闲旋律"}
-    ];
+      {src:"./fontaine.mp3",name:"曲目一 枫丹 BGM"},
+      {src:"./venti.mp3",name:"曲目二 诗人的工作 BGM"},
+      {src:"./yuriyuri1op.mp3",name:"曲目三 摇曳百合OP"}，
+   {src:"./yuriyuri1ed.mp3",name:"曲目四 摇曳百合ED"}，
+     {src:"./keroro2ed.mp3",name:"曲目五 keroro军曹ED"}
+     ];
 
     // 读取本地保存设置，没有则使用默认
     let setting = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify({
