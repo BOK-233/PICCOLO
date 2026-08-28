@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
-<!-- Supabase SDK CDN -->
+<!-- 只通过CDN加载SDK，不要把js源码粘贴进html！！ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
@@ -952,18 +952,26 @@ async function doAdminLogin(){
   const pwd = document.getElementById("loginPwd").value.trim();
   const msgEl = document.getElementById("loginMsg");
   msgEl.innerText="登录中...";
-  const {data,error} = await supabase.auth.signInWithPassword({email,password:pwd});
-  if(error){
-    msgEl.innerText="登录失败："+error.message;
-    return;
+  const loginPromise = supabase.auth.signInWithPassword({email,password:pwd});
+  const timeoutPromise = new Promise((_, reject)=>{
+    setTimeout(()=>reject(new Error("网络超时，切换手机热点重试")),10000);
+  });
+  try{
+    const {data,error} = await Promise.race([loginPromise, timeoutPromise]);
+    if(error){
+      msgEl.innerText="登录失败："+error.message;
+      return;
+    }
+    isAdmin=true;
+    document.body.classList.add("admin-mode");
+    closeAdminModal();
+    await renderHomeNotice();
+    await renderBlog();
+    await renderFeed();
+    await renderGuestbook();
+  }catch(err){
+    msgEl.innerText=err.message;
   }
-  isAdmin=true;
-  document.body.classList.add("admin-mode");
-  closeAdminModal();
-  await renderHomeNotice();
-  await renderBlog();
-  await renderFeed();
-  await renderGuestbook();
 }
 async function doLogout(){
   await supabase.auth.signOut();
