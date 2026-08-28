@@ -8,8 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============ 【请替换为你自己的项目信息】 ============
-const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co
-";
+const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 </script>
@@ -754,7 +753,7 @@ a:hover { color: var(--link-hover); }
             <span>音量</span>
             <input type="range" id="volSlider" min="0" max="100" value="70">
           </div>
-          <audio id="bgAudio" preload="metadata">
+          <audio id="bgAudio" preload="metadata"></audio>
         </div>
       </div>
       <div class="panel">
