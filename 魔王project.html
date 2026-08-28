@@ -723,7 +723,6 @@ a:hover { color: var(--link-hover); }
 </div>
 <script>
 let tabs,pages;
-
 // DOM解析完成立刻获取导航元素
 document.addEventListener('DOMContentLoaded',function(){
   tabs = Array.from(document.querySelectorAll('#tabs button'));
@@ -905,14 +904,14 @@ function goAndSwitch(tabName){
     const volSlider = document.getElementById('volSlider');
     const STORAGE_KEY = "keroro_bgm_setting";
 
-    // ===在这里填写你的歌曲列表，修改文件名和歌曲显示名称===
+    // ===歌曲列表，全部逗号已改为英文半角===
     const musicList = [
       {src:"./fontaine.mp3",name:"曲目一 枫丹 BGM"},
       {src:"./venti.mp3",name:"曲目二 诗人的工作 BGM"},
-      {src:"./yuriyuri1op.mp3",name:"曲目三 摇曳百合OP"}，
-   {src:"./yuriyuri1ed.mp3",name:"曲目四 摇曳百合ED"}，
-     {src:"./keroro2ed.mp3",name:"曲目五 keroro军曹ED"}
-     ];
+      {src:"./yuriyuri1op.mp3",name:"曲目三 摇曳百合OP"},
+      {src:"./yuriyuri1ed.mp3",name:"曲目四 摇曳百合ED"},
+      {src:"./keroro2ed.mp3",name:"曲目五 keroro军曹ED"}
+    ];
 
     // 读取本地保存设置，没有则使用默认
     let setting = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify({
