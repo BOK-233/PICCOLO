@@ -7,7 +7,6 @@
 <!-- Supabase SDK CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ============ 【请替换为你自己的项目信息】 ============
 const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -668,7 +667,6 @@ a:hover { color: var(--link-hover); }
     </div>
   </div>
 </div>
-
 <div id="adminLoginModal" class="login-modal hidden">
   <div class="login-modal-inner">
     <h3 style="color:#ffdd77;margin-bottom:10px;">站长登录</h3>
@@ -683,7 +681,6 @@ a:hover { color: var(--link-hover); }
     <div id="loginMsg" style="color:#ff6666;font-size:12px;margin-top:8px;"></div>
   </div>
 </div>
-
 <div id="starfield" aria-hidden="true"></div>
 <div class="page">
   <header class="top-banner">
@@ -753,7 +750,7 @@ a:hover { color: var(--link-hover); }
             <span>音量</span>
             <input type="range" id="volSlider" min="0" max="100" value="70">
           </div>
-          <audio id="bgAudio" preload="metadata"></audio>
+          <audio id="bgAudio" preload="metadata">
         </div>
       </div>
       <div class="panel">
@@ -786,7 +783,6 @@ a:hover { color: var(--link-hover); }
         <h3 class="sec">✦ 站长留言 ✦</h3>
         <p>最近在追【keroro军曹】，每天蹲点等更新。有空也喜欢【散步 / 听歌 / 打游戏】。世界很大，能在这里相遇就是缘分，愿你天天开心！</p>
       </section>
-
       <section class="tab-page" id="tab-blog" data-page="blog" hidden>
         <div class="hello">☆ 📖站长博客 ☆</div>
         <div class="divider"></div>
@@ -801,7 +797,6 @@ a:hover { color: var(--link-hover); }
         <div id="blogListWrap"></div>
         <div class="pagination" id="blogPageBar"></div>
       </section>
-
       <section class="tab-page" id="tab-feed" data-page="feed" hidden>
         <div class="hello">☆ 📜简短动态 ☆</div>
         <div class="divider"></div>
@@ -812,7 +807,6 @@ a:hover { color: var(--link-hover); }
         </div>
         <div id="feedListWrap"></div>
       </section>
-
       <section class="tab-page" id="tab-hobby" data-page="hobby" hidden>
         <div class="hello">☆ 我的兴趣 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -825,7 +819,6 @@ a:hover { color: var(--link-hover); }
         <h3 class="sec">📚 其他爱好</h3>
         <p>【看书、运动、手工、美食……想写什么都行。】</p>
       </section>
-
       <section class="tab-page" id="tab-photo" data-page="photo" hidden>
         <div class="hello">☆ 我的相册 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -839,7 +832,6 @@ a:hover { color: var(--link-hover); }
           <div class="photo">【照片6<br>占位】</div>
         </div>
       </section>
-
       <section class="tab-page" id="tab-links" data-page="links" hidden>
         <div class="hello">☆ 友情链接 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -855,7 +847,6 @@ a:hover { color: var(--link-hover); }
         <p>本站链接代码：<br>
         <code style="color:#33ff66;">&lt;a href="你的网址"&gt;【你的昵称】の小窝&lt;/a&gt;</code></p>
       </section>
-
       <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
         <div class="hello">☆ 留言板 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -870,7 +861,6 @@ a:hover { color: var(--link-hover); }
         </div>
         <div id="gb-list" aria-live="polite"></div>
       </section>
-
       <section class="tab-page" id="tab-about" data-page="about" hidden>
         <div class="hello">☆ 关于我 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -917,7 +907,6 @@ let tabs,pages;
 let isAdmin = false;
 let blogCurrentPage =1;
 const BLOG_PAGE_SIZE =3;
-
 document.addEventListener('DOMContentLoaded',async function(){
   tabs = Array.from(document.querySelectorAll('#tabs button'));
   pages = Array.from(document.querySelectorAll('.tab-page'));
@@ -931,7 +920,6 @@ document.addEventListener('DOMContentLoaded',async function(){
   await renderFeed();
   await renderGuestbook();
 });
-
 function enterSite(){
   document.getElementById('loginOverlay').style.display="none";
 }
@@ -951,7 +939,6 @@ function goAndSwitch(tabName){
     switchTab(tabName);
   },60);
 }
-
 //=====站长登录弹窗=====
 function openAdminLogin(){
   document.getElementById("adminLoginModal").classList.remove("hidden");
@@ -987,7 +974,6 @@ async function doLogout(){
   await renderFeed();
   await renderGuestbook();
 }
-
 //====首页公告====
 async function renderHomeNotice(){
   const {data} = await supabase.from("site_notice").select("*").limit(1);
@@ -1006,7 +992,6 @@ async function saveSiteNotice(){
   await supabase.from("site_notice").update({notice_text:val}).eq("id",1);
   await renderHomeNotice();
 }
-
 //====博客====
 async function renderBlog(){
   const wrap = document.getElementById("blogListWrap");
@@ -1066,7 +1051,6 @@ async function delBlog(id){
   await supabase.from("blog").delete().eq("id",id);
   await renderBlog();
 }
-
 //====动态feed====
 async function renderFeed(){
   const wrap = document.getElementById("feedListWrap");
@@ -1098,7 +1082,6 @@ async function delFeed(id){
   await supabase.from("feed").delete().eq("id",id);
   await renderFeed();
 }
-
 //====留言板====
 async function renderGuestbook(){
   const listEl = document.getElementById("gb-list");
@@ -1124,13 +1107,11 @@ async function delGb(id){
   await supabase.from("guestbook").delete().eq("id",id);
   await renderGuestbook();
 }
-
 //html转义
 function escapeHtml(str){
   if(!str) return "";
-  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace( />/g,"&gt;");
 }
-
 //=========页面基础功能 星空、计数器时钟=========
 (function stars() {
   var field = document.getElementById('starfield');
@@ -1148,7 +1129,6 @@ function escapeHtml(str){
     field.appendChild(s);
   }
 })();
-
 var KEY = 'retro-visits';
 var visits = 0;
 try {
@@ -1177,7 +1157,6 @@ function renderCount() {
   if (mc) mc.textContent = visits;
 }
 renderCount();
-
 var t0 = Date.now();
 var clockEl = document.getElementById('clock');
 var onlineEl = document.getElementById('online');
@@ -1189,7 +1168,6 @@ function tick() {
 }
 tick();
 setInterval(tick, 1000);
-
 tabs = Array.from(document.querySelectorAll('#tabs button'));
 pages = Array.from(document.querySelectorAll('.tab-page'));
 tabs.forEach(function (b) {
@@ -1197,7 +1175,6 @@ tabs.forEach(function (b) {
     switchTab(b.getAttribute('data-tab'));
   });
 });
-
 //留言板提交表单
 var gbForm = document.getElementById('gb-form');
 gbForm.addEventListener('submit',async function (e) {
@@ -1212,7 +1189,6 @@ gbForm.addEventListener('submit',async function (e) {
   msgInput.value = '';
   await renderGuestbook();
 });
-
 //====背景音乐播放器====
 (function(){
   const audio = document.getElementById('bgAudio');
@@ -1224,7 +1200,6 @@ gbForm.addEventListener('submit',async function (e) {
   const volSlider = document.getElementById('volSlider');
   const musicSelect=document.getElementById("musicSelect");
   const STORAGE_KEY = "keroro_bgm_setting";
-
   const musicList = [
     {src:"./fontaine.mp3",name:"曲目一 枫丹 BGM"},
     {src:"./venti.mp3",name:"曲目二 诗人的工作 BGM"},
@@ -1243,7 +1218,6 @@ gbForm.addEventListener('submit',async function (e) {
     loadMusic(idx);
     if(!audio.paused) audio.play().catch(e=>{});
   });
-
   let setting = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify({
     currentIndex:0,
     volume:0.7,
@@ -1252,7 +1226,6 @@ gbForm.addEventListener('submit',async function (e) {
   let currentIndex = setting.currentIndex;
   let isMute = setting.isMute;
   let lastVolume = setting.volume;
-
   function saveSetting(){
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       currentIndex,
@@ -1282,7 +1255,6 @@ gbForm.addEventListener('submit',async function (e) {
       volSlider.value = lastVolume * 100;
     }
   }
-
   btnPlay.addEventListener("click",()=>{
     if(audio.paused){
       audio.play().catch(e=>console.log("播放被浏览器限制：需要用户交互"));
