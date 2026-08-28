@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
-<!-- 只通过CDN加载SDK，不要把js源码粘贴进html！！ -->
+<!-- Supabase SDK CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 实例改名为supabaseClient，避免与CDN全局变量supabase冲突
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 </script>
 <title>欢迎光临 ★【keroro骑士团】★</title>
 <style>
@@ -910,7 +911,7 @@ const BLOG_PAGE_SIZE =3;
 document.addEventListener('DOMContentLoaded',async function(){
   tabs = Array.from(document.querySelectorAll('#tabs button'));
   pages = Array.from(document.querySelectorAll('.tab-page'));
-  const {data:{user}} = await supabase.auth.getUser();
+  const {data:{user}} = await supabaseClient.auth.getUser();
   if(user){
     isAdmin = true;
     document.body.classList.add("admin-mode");
@@ -952,7 +953,7 @@ async function doAdminLogin(){
   const pwd = document.getElementById("loginPwd").value.trim();
   const msgEl = document.getElementById("loginMsg");
   msgEl.innerText="登录中...";
-  const loginPromise = supabase.auth.signInWithPassword({email,password:pwd});
+  const loginPromise = supabaseClient.auth.signInWithPassword({email,password:pwd});
   const timeoutPromise = new Promise((_, reject)=>{
     setTimeout(()=>reject(new Error("网络超时，切换手机热点重试")),10000);
   });
@@ -974,7 +975,7 @@ async function doAdminLogin(){
   }
 }
 async function doLogout(){
-  await supabase.auth.signOut();
+  await supabaseClient.auth.signOut();
   isAdmin=false;
   document.body.classList.remove("admin-mode");
   await renderHomeNotice();
@@ -984,7 +985,7 @@ async function doLogout(){
 }
 //====首页公告====
 async function renderHomeNotice(){
-  const {data} = await supabase.from("site_notice").select("*").limit(1);
+  const {data} = await supabaseClient.from("site_notice").select("*").limit(1);
   const txtWrap = document.getElementById("homeNoticeText");
   const input = document.getElementById("homeNoticeInput");
   if(data&&data.length>0){
@@ -997,19 +998,19 @@ async function renderHomeNotice(){
 }
 async function saveSiteNotice(){
   const val = document.getElementById("homeNoticeInput").value.trim();
-  await supabase.from("site_notice").update({notice_text:val}).eq("id",1);
+  await supabaseClient.from("site_notice").update({notice_text:val}).eq("id",1);
   await renderHomeNotice();
 }
 //====博客====
 async function renderBlog(){
   const wrap = document.getElementById("blogListWrap");
   const pageBar = document.getElementById("blogPageBar");
-  const {count} = await supabase.from("blog").select("*",{count:'exact',head:true});
+  const {count} = await supabaseClient.from("blog").select("*",{count:'exact',head:true});
   const totalPage = Math.ceil(count / BLOG_PAGE_SIZE);
   if(blogCurrentPage>totalPage && totalPage>0) blogCurrentPage = totalPage;
   const from = (blogCurrentPage-1)*BLOG_PAGE_SIZE;
   const to = from + BLOG_PAGE_SIZE -1;
-  const {data:list} = await supabase.from("blog").select("*").order("create_time",{asc:false}).range(from,to);
+  const {data:list} = await supabaseClient.from("blog").select("*").order("create_time",{asc:false}).range(from,to);
   if(!list||list.length===0){
     wrap.innerHTML="<div>暂无博客文章</div>";
     pageBar.innerHTML="";
@@ -1047,7 +1048,7 @@ async function submitBlog(){
   if(!title||!content){alert("标题和正文不能为空");return;}
   const tags = tagStr ? tagStr.split(',').map(t=>t.trim()).filter(t=>t):[];
   const wordCount = content.length;
-  await supabase.from("blog").insert([{title,content,tags,img,word_count:wordCount}]);
+  await supabaseClient.from("blog").insert([{title,content,tags,img,word_count:wordCount}]);
   document.getElementById("blogTitle").value="";
   document.getElementById("blogContent").value="";
   document.getElementById("blogTags").value="";
@@ -1056,13 +1057,13 @@ async function submitBlog(){
   await renderBlog();
 }
 async function delBlog(id){
-  await supabase.from("blog").delete().eq("id",id);
+  await supabaseClient.from("blog").delete().eq("id",id);
   await renderBlog();
 }
 //====动态feed====
 async function renderFeed(){
   const wrap = document.getElementById("feedListWrap");
-  const {data:list} = await supabase.from("feed").select("*").order("create_time",{asc:false});
+  const {data:list} = await supabaseClient.from("feed").select("*").order("create_time",{asc:false});
   if(!list||list.length===0){
     wrap.innerHTML="<div>暂无动态</div>";
     return;
@@ -1082,18 +1083,18 @@ async function renderFeed(){
 async function submitFeed(){
   const txt = document.getElementById("feedText").value.trim();
   if(!txt){alert("动态不能为空");return;}
-  await supabase.from("feed").insert([{text:txt}]);
+  await supabaseClient.from("feed").insert([{text:txt}]);
   document.getElementById("feedText").value="";
   await renderFeed();
 }
 async function delFeed(id){
-  await supabase.from("feed").delete().eq("id",id);
+  await supabaseClient.from("feed").delete().eq("id",id);
   await renderFeed();
 }
 //====留言板====
 async function renderGuestbook(){
   const listEl = document.getElementById("gb-list");
-  const {data:msgs} = await supabase.from("guestbook").select("*").order("create_time",{asc:false});
+  const {data:msgs} = await supabaseClient.from("guestbook").select("*").order("create_time",{asc:false});
   if(!msgs||msgs.length===0){
     listEl.innerHTML = '<div class="gb-empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
     return;
@@ -1112,7 +1113,7 @@ async function renderGuestbook(){
   listEl.innerHTML=html;
 }
 async function delGb(id){
-  await supabase.from("guestbook").delete().eq("id",id);
+  await supabaseClient.from("guestbook").delete().eq("id",id);
   await renderGuestbook();
 }
 //html转义
@@ -1192,7 +1193,7 @@ gbForm.addEventListener('submit',async function (e) {
   var name = nameInput.value.trim();
   var msg = msgInput.value.trim();
   if (!name || !msg) return;
-  await supabase.from("guestbook").insert([{name,msg}]);
+  await supabaseClient.from("guestbook").insert([{name,msg}]);
   nameInput.value = '';
   msgInput.value = '';
   await renderGuestbook();
