@@ -8,9 +8,10 @@
 <script>
 const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
-// ✅ 在创建客户端直接指定 public schema，全局生效，不用每处写 .schema()
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  db: { schema: 'public' }
+  db: {
+    schema: 'public'
+  }
 });
 </script>
 <title>keroro骑士团 - 站长后台</title>
