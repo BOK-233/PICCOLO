@@ -2,13 +2,16 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<!-- 修复移动端点击关键viewport配置 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
 <title>欢迎光临 ★【keroro骑士团】★</title>
 <style>
-/* ============================================================
-   2000年代 旧互联网个人主页风 —— 全部风格内联，单文件可运行
-   ============================================================ */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --neon-cyan: #00ffff;
@@ -21,6 +24,7 @@
   --text-main: #e8e8ff;
   --link: #66ccff;
   --link-hover: #ffff66;
+  --tag-bg:#203880;
 }
 html { height: 100%; }
 body {
@@ -30,7 +34,6 @@ body {
   background: #000020;
   overflow-x: hidden;
 }
-/* ===================== 登录索引遮罩层【手机端修复】 ===================== */
 #loginOverlay{
   position:fixed;
   inset:0;
@@ -142,7 +145,6 @@ body {
   padding:8px 4px;
   pointer-events:auto !important;
 }
-/* ==========背景音乐播放器 复古UI========== */
 .audio-panel{
   padding:10px 12px;
 }
@@ -161,8 +163,9 @@ body {
   flex-wrap:wrap;
   justify-content:center;
   align-items:center;
+  margin-bottom:8px;
 }
-.audio-ctrl button{
+.audio-ctrl button, .audio-ctrl select{
   font-family:inherit;
   font-size:12px;
   padding:6px 10px;
@@ -190,8 +193,6 @@ body {
 .volume-wrap input[type="range"]{
   flex-grow:1;
 }
-/* ============================================================== */
-/* ---------- 星空背景 ---------- */
 #starfield {
   position: fixed;
   inset: 0;
@@ -212,7 +213,6 @@ body {
   from { opacity: 0.15; }
   to   { opacity: 1; }
 }
-/* ---------- 页面容器 ---------- */
 .page {
   position: relative;
   z-index: 1;
@@ -220,7 +220,6 @@ body {
   margin: 0 auto;
   padding: 12px 10px 30px;
 }
-/* ---------- 顶部标题 ---------- */
 .top-banner {
   text-align: center;
   padding: 22px 10px 14px;
@@ -261,8 +260,7 @@ body {
   font-weight: bold;
   border-radius: 4px;
 }
-.construction span { background: #ffcc00; padding: 1px 6px; border-radius: 2px; }
-/* ---------- 跑马灯 ---------- */
+.construction span { background: #ffcc00; padding: 1px 6px; border-radius: 4px; }
 .marquee-wrap {
   margin: 10px 0;
   border: 2px solid #6666ff;
@@ -280,7 +278,6 @@ body {
 }
 .marquee-track em { font-style: normal; color: var(--neon-pink); }
 @keyframes marquee { to { transform: translateX(-100%); } }
-/* ---------- 导航栏 ---------- */
 nav.tabs {
   display: flex;
   flex-wrap: wrap;
@@ -311,7 +308,6 @@ nav.tabs button[aria-selected="true"] {
   color: #fff;
   text-shadow: 0 0 6px #000;
 }
-/* ---------- 主体布局 ---------- */
 .layout {
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -321,7 +317,6 @@ nav.tabs button[aria-selected="true"] {
 @media (max-width: 720px) {
   .layout { grid-template-columns: 1fr; }
 }
-/* ---------- 面板通用 ---------- */
 .panel {
   border: 2px solid var(--panel-border);
   border-radius: 10px;
@@ -343,7 +338,6 @@ nav.tabs button[aria-selected="true"] {
 }
 .panel-title .deco { color: #003366; }
 .panel-body { padding: 10px 12px; font-size: 14px; line-height: 1.7; }
-/* ---------- 侧边栏 ---------- */
 .avatar-box { text-align: center; padding: 12px; }
 .avatar-box .avatar {
   width: 110px; height: 110px;
@@ -360,7 +354,6 @@ nav.tabs button[aria-selected="true"] {
 .info-list { list-style: none; font-size: 13px; }
 .info-list li { padding: 4px 0; border-bottom: 1px dashed #3333aa; }
 .info-list b { color: var(--neon-orange); }
-/* 计数器 */
 .counter-box { text-align: center; padding: 8px 10px; font-size: 13px; color: #aaccff; }
 .odometer {
   display: inline-flex; gap: 3px; margin: 6px auto;
@@ -380,7 +373,6 @@ nav.tabs button[aria-selected="true"] {
   text-shadow: 0 0 6px #33ff66;
 }
 .counter-box small { color: #7799cc; }
-/* 公告栏 */
 .bulletin { font-size: 13px; color: #ffe0a0; }
 .bulletin .b-item { padding: 4px 0; border-bottom: 1px dashed #553300; }
 .b-new {
@@ -389,12 +381,9 @@ nav.tabs button[aria-selected="true"] {
   animation: blink 1s steps(2, start) infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
-/* 在线时长 */
 .online-timer { text-align: center; font-size: 13px; color: #aaffaa; padding: 6px; }
-/* 时钟 */
 .clock-box { text-align: center; font-size: 13px; color: #ffcc66; padding: 6px; }
 .clock-box b { color: var(--neon-green); letter-spacing: 1px; }
-/* ---------- 主区域 ---------- */
 main.main { min-height: 480px; }
 .tab-page[hidden] { display: none !important; }
 .hello {
@@ -419,8 +408,16 @@ main.main { min-height: 480px; }
 }
 .tag-new { background: #ff5555; color: #fff; }
 .tag-hot { background: #ffcc00; }
+.blog-tag{
+  display:inline-block;
+  background:var(--tag-bg);
+  color:#fff;
+  font-size:11px;
+  padding:1px 6px;
+  border-radius:3px;
+  margin:0 3px 3px 0;
+}
 h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-left: 6px solid var(--neon-pink); padding-left: 8px; }
-/* 友情链接按钮 */
 .link-btn {
   display: inline-block; margin: 4px 6px 4px 0;
   padding: 4px 12px;
@@ -432,7 +429,6 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
   text-decoration: none;
 }
 .link-btn:hover { filter: brightness(1.12); }
-/* 相册 */
 .album-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -447,7 +443,75 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
   font-size: 12px; color: #88aaff; text-align: center; padding: 6px;
   box-shadow: 0 0 8px rgba(0,255,255,.25);
 }
-/* ---------- 留言板 ---------- */
+.social-box{
+  border:2px inset #6699ff;
+  padding:12px;
+  margin-top:10px;
+}
+.social-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.social-item img{
+  width:42px;
+  height:42px;
+  border-radius:6px;
+  border:2px outset #88ddff;
+}
+.home-notice-box{
+  border:2px ridge #ffcc66;
+  background:rgba(40,30,80,0.85);
+  padding:12px;
+  margin-bottom:16px;
+}
+.home-notice-title{
+  color:#ffcc66;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+.blog-card{
+  border:2px solid #3355aa;
+  border-radius:8px;
+  background:rgba(12,12,60,0.75);
+  padding:14px;
+  margin-bottom:14px;
+}
+.blog-card h4{
+  color:#ffdd77;
+  font-size:17px;
+  margin-bottom:4px;
+}
+.blog-meta{
+  font-size:12px;
+  color:#88aaff;
+  margin-bottom:8px;
+}
+.blog-img{
+  max-width:100%;
+  border-radius:6px;
+  margin:8px 0;
+}
+.blog-content{
+  line-height:1.7;
+}
+.pagination{
+  margin-top:16px;
+  text-align:center;
+}
+.pagination button{
+  padding:4px 10px;
+  margin:0 3px;
+}
+.feed-item{
+  border-bottom:1px dashed #4444cc;
+  padding:10px 0;
+}
+.feed-time{
+  font-size:12px;
+  color:#7799cc;
+}
 .gb-form {
   border: 2px solid #6666ff; border-radius: 8px;
   background: rgba(0,0,40,.6);
@@ -485,17 +549,7 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
 .gb-msg .gb-name { color: var(--neon-yellow); font-weight: bold; }
 .gb-msg .gb-time { color: #7799cc; font-family: "Courier New", monospace; font-size: 11px; margin-left: 8px; }
 .gb-msg .gb-body { font-size: 14px; color: #e8e8ff; white-space: pre-wrap; word-break: break-word; }
-.gb-msg .gb-del {
-  position: absolute; top: 8px; right: 8px;
-  font-size: 12px; color: #ff8888; background: none; border: none;
-  cursor: pointer; font-family: inherit;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  pointer-events:auto !important;
-}
-.gb-msg .gb-del:hover { color: #ff0000; text-decoration: underline; }
 .gb-empty { color: #7799cc; font-size: 13px; text-align: center; padding: 20px 0; }
-/* ---------- 页脚 ---------- */
 footer.footer {
   margin-top: 14px; text-align: center;
   font-size: 12px; color: #88aadd;
@@ -514,15 +568,17 @@ footer.footer .copy { color: var(--neon-pink); }
 .badge.red { background: #ff6666; }
 a { color: var(--link); }
 a:hover { color: var(--link-hover); }
-/* 减少动效偏好 */
+.hidden{display:none !important;}
 @media (prefers-reduced-motion: reduce) {
   .marquee-track, .top-banner h1, .star { animation: none !important; }
   .hello, .b-new { animation: none !important; }
 }
+#announcement-top-bar{
+  display:none;background:#fb7299;color:#fff;padding:6px 12px;text-align:center;overflow:hidden;
+}
 </style>
 </head>
 <body>
-<!-- ==========登录索引遮罩层【手机修复】========== -->
 <div id="loginOverlay">
   <div class="login-panel">
     <div class="panel-title">🔐 keroro骑士团</div>
@@ -535,44 +591,49 @@ a:hover { color: var(--link-hover); }
     <div class="site-index">
       <h4>📋站点索引</h4>
       <button onclick="goAndSwitch('home');">🏠 网站主页</button>
-      <button onclick="goAndSwitch('about');">👤 关于我</button>
+      <button onclick="goAndSwitch('blog');">📖 博客</button>
+      <button onclick="goAndSwitch('feed');">📜 动态</button>
       <button onclick="goAndSwitch('hobby');">💖 我的兴趣</button>
       <button onclick="goAndSwitch('photo');">🖼️ 我的相册</button>
-      <button onclick="goAndSwitch('guestbook');">📝 留言板</button>
       <button onclick="goAndSwitch('links');">🔗 友情链接</button>
+      <button onclick="goAndSwitch('guestbook');">📝 留言板</button>
+      <button onclick="goAndSwitch('about');">👤 关于我</button>
+      <button onclick="goAndSwitch('anno');">📢官方公告</button>
     </div>
     <div class="bottom-link">
       <button onclick="goAndSwitch('home');">← 直接前往主页</button>
     </div>
   </div>
 </div>
-<!-- ================================================== -->
-<!-- 星空背景 -->
+
+<div id="announcement-top-bar">
+  <span>📢 <strong id="announcement-top-text"></strong></span>
+</div>
+
 <div id="starfield" aria-hidden="true"></div>
 <div class="page">
-  <!-- 顶部标题 -->
   <header class="top-banner">
     <h1>★ 欢迎来到【keroro骑士团】 ★</h1>
     <div class="subtitle">◇ 本站建于 2026 年 ◆ 经营中 ◇ 欢迎光临 ◆</div>
     <div class="construction"><span>🚧 本站正在建设中，欢迎常来逛逛！🚧</span></div>
   </header>
-  <!-- 跑马灯 -->
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
       ★★★ 欢迎光临本小站！&nbsp;&nbsp;<em>☆ 本站第&nbsp;<b id="marquee-count">1</b>&nbsp;位访客 ☆</em>&nbsp;&nbsp;本站主人正在努力更新中，欢迎留言、交换友情链接！&nbsp;&nbsp;本页最佳浏览：IE 6.0 + 800×600 分辨率 ★★★
     </div>
   </div>
-  <!-- 导航 -->
   <nav class="tabs" id="tabs" aria-label="页面导航">
     <button type="button" data-tab="home" aria-selected="true">🏠 首页</button>
-    <button type="button" data-tab="about" aria-selected="false">👤 关于我</button>
+    <button type="button" data-tab="blog" aria-selected="false">📖 博客</button>
+    <button type="button" data-tab="feed" aria-selected="false">📜 动态</button>
     <button type="button" data-tab="hobby" aria-selected="false">💖 我的兴趣</button>
     <button type="button" data-tab="photo" aria-selected="false">📷 我的相册</button>
-    <button type="button" data-tab="guestbook" aria-selected="false">✍️ 留言板</button>
     <button type="button" data-tab="links" aria-selected="false">🔗 友情链接</button>
+    <button type="button" data-tab="guestbook" aria-selected="false">✍️ 留言板</button>
+    <button type="button" data-tab="about" aria-selected="false">👤 关于我</button>
+    <button type="button" data-tab="anno" aria-selected="false">📢公告</button>
   </nav>
   <div class="layout">
-    <!-- ================= 侧边栏 ================= -->
     <aside>
       <div class="panel">
         <div class="panel-title"><span class="deco">◆</span> 站长 <span class="deco">◆</span></div>
@@ -604,7 +665,6 @@ a:hover { color: var(--link-hover); }
         <div class="clock-box">现在时间：<b id="clock">--:--:--</b></div>
         <div class="online-timer">您已在本站逗留<br><b id="online">0</b> 秒</div>
       </div>
-      <!-- 背景音乐面板 -->
       <div class="panel">
         <div class="panel-title"><span class="deco">◆</span> 🎵 背景音乐 <span class="deco">◆</span></div>
         <div class="audio-panel panel-body">
@@ -614,6 +674,7 @@ a:hover { color: var(--link-hover); }
             <button id="btnMute">🔇静音</button>
             <button id="btnPrev">◀上一首</button>
             <button id="btnNext">下一首▶</button>
+            <select id="musicSelect"></select>
           </div>
           <div class="volume-wrap">
             <span>音量</span>
@@ -632,42 +693,33 @@ a:hover { color: var(--link-hover); }
         </div>
       </div>
     </aside>
-    <!-- ================= 主内容 ================= -->
     <main class="main">
-      <!-- 首页 -->
       <section class="tab-page" id="tab-home" data-page="home">
         <div class="hello">☆ 叮咚！欢迎光临我的小窝 ☆</div>
         <div class="divider" aria-hidden="true"></div>
-        <p>你好呀，欢迎来到【keroro】的个人主页！这里是 2000 年代风格的互联网小天地，欢迎随便逛逛、留下脚印。</p>
-        <p>本站记录我的【日常生活 / 兴趣爱好 / 珍藏回忆】，也会不定期更新小作文和收藏。喜欢的话请到留言板给我留言，或者交换友情链接~</p>
+        <div class="home-notice-box">
+          <div class="home-notice-title">📢 站点公告</div>
+          <div id="homeNoticeText"></div>
+        </div>
         <h3 class="sec">✦ 最新更新 ✦</h3>
         <ul class="update-list">
+          <li><span class="date">2026‑08‑29</span>接入Supabase云端数据库版本<span class="tag tag-new">NEW</span></li>
           <li><span class="date">2026‑08‑28</span>修复移动端登录索引点击响应问题，扩大触摸热区<span class="tag tag-new">NEW</span></li>
-          <li><span class="date">2026‑08‑27</span>修复登录索引PC&移动端点击跳转BUG<span class="tag tag-new">NEW</span></li>
-          <li><span class="date">2026‑08‑26</span>本站正式开张，欢迎光临！<span class="tag tag-new">NEW</span></li>
-          <li><span class="date">2026‑08‑25</span>整理【收藏夹】第一批内容上线</li>
-          <li><span class="date">2026‑08‑20</span>【相册】补充了几张照片</li>
         </ul>
         <h3 class="sec">✦ 站长留言 ✦</h3>
         <p>最近在追【keroro军曹】，每天蹲点等更新。有空也喜欢【散步 / 听歌 / 打游戏】。世界很大，能在这里相遇就是缘分，愿你天天开心！</p>
       </section>
-      <!-- 关于我 -->
-      <section class="tab-page" id="tab-about" data-page="about" hidden>
-        <div class="hello">☆ 关于我 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
-        <h3 class="sec">◆ 我是谁</h3>
-        <p>【在这里写一段自我介绍：你是谁、做什么的、性格如何。例如：大家好，我是【昵称】，一名【学生】，平时喜欢……】</p>
-        <h3 class="sec">◆ 我的故事</h3>
-        <p>【在这里写下你的经历或想分享的故事：怎么开始接触网络/兴趣爱好、最难忘的一件事、未来的小目标等等。】</p>
-        <h3 class="sec">◆ 小档案</h3>
-        <ul class="info-list">
-          <li><b>生日：</b>【月 / 日】</li>
-          <li><b>最喜欢的事：</b>【___】</li>
-          <li><b>最想去的地方：</b>【___】</li>
-          <li><b>座右铭：</b>【___】</li>
-        </ul>
+      <section class="tab-page" id="tab-blog" data-page="blog" hidden>
+        <div class="hello">☆ 📖站长博客 ☆</div>
+        <div class="divider"></div>
+        <div id="blogListWrap"></div>
+        <div class="pagination" id="blogPageBar"></div>
       </section>
-      <!-- 我的兴趣 -->
+      <section class="tab-page" id="tab-feed" data-page="feed" hidden>
+        <div class="hello">☆ 📜简短动态 ☆</div>
+        <div class="divider"></div>
+        <div id="feedListWrap"></div>
+      </section>
       <section class="tab-page" id="tab-hobby" data-page="hobby" hidden>
         <div class="hello">☆ 我的兴趣 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -680,11 +732,10 @@ a:hover { color: var(--link-hover); }
         <h3 class="sec">📚 其他爱好</h3>
         <p>【看书、运动、手工、美食……想写什么都行。】</p>
       </section>
-      <!-- 相册 -->
       <section class="tab-page" id="tab-photo" data-page="photo" hidden>
         <div class="hello">☆ 我的相册 ☆</div>
         <div class="divider" aria-hidden="true"></div>
-        <p style="margin-bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可。下面先给出格子示例：】</p>
+        <p style="margin-bottom:10px;">【把图片放进本站目录后，把下方“占位”替换成 &lt;img&gt; 即可，支持gif动图】</p>
         <div class="album-grid">
           <div class="photo">【照片1<br>占位】</div>
           <div class="photo">【照片2<br>占位】</div>
@@ -694,22 +745,6 @@ a:hover { color: var(--link-hover); }
           <div class="photo">【照片6<br>占位】</div>
         </div>
       </section>
-      <!-- 留言板 -->
-      <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
-        <div class="hello">☆ 留言板 ☆</div>
-        <div class="divider" aria-hidden="true"></div>
-        <div class="gb-form">
-          <form id="gb-form" autocomplete="off">
-            <label for="gb-name">你的大名：</label>
-            <input type="text" id="gb-name" maxlength="20" placeholder="【这里填你的昵称】" required>
-            <label for="gb-msg">留言内容：</label>
-            <textarea id="gb-msg" rows="3" maxlength="500" placeholder="想对我说点什么？" required></textarea>
-            <button type="submit" class="gb-btn">✍️ 提交留言</button>
-          </form>
-        </div>
-        <div id="gb-list" aria-live="polite"></div>
-      </section>
-      <!-- 友情链接 -->
       <section class="tab-page" id="tab-links" data-page="links" hidden>
         <div class="hello">☆ 友情链接 ☆</div>
         <div class="divider" aria-hidden="true"></div>
@@ -725,9 +760,50 @@ a:hover { color: var(--link-hover); }
         <p>本站链接代码：<br>
         <code style="color:#33ff66;">&lt;a href="你的网址"&gt;【你的昵称】の小窝&lt;/a&gt;</code></p>
       </section>
+      <section class="tab-page" id="tab-guestbook" data-page="guestbook" hidden>
+        <div class="hello">☆ 留言板 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <div class="gb-form">
+          <form id="gb-form" autocomplete="off">
+            <label for="gb-name">你的大名：</label>
+            <input type="text" id="gb-name" maxlength="20" placeholder="【这里填你的昵称】" required>
+            <label for="gb-msg">留言内容：</label>
+            <textarea id="gb-msg" rows="3" maxlength="500" placeholder="想对我说点什么？" required></textarea>
+            <button type="submit" class="gb-btn">✍️ 提交留言</button>
+          </form>
+        </div>
+        <div id="gb-list" aria-live="polite"></div>
+      </section>
+      <section class="tab-page" id="tab-about" data-page="about" hidden>
+        <div class="hello">☆ 关于我 ☆</div>
+        <div class="divider" aria-hidden="true"></div>
+        <h3 class="sec">◆ 我是谁</h3>
+        <p>【在这里写一段自我介绍：你是谁、做什么的、性格如何。例如：大家好，我是【昵称】，一名【学生】，平时喜欢……】</p>
+        <h3 class="sec">◆ 我的故事</h3>
+        <p>【在这里写下你的经历或想分享的故事：怎么开始接触网络/兴趣爱好、最难忘的一件事、未来的小目标等等。】</p>
+        <h3 class="sec">◆ 社交账号</h3>
+        <div class="social-box">
+          <div class="social-row">
+            <a class="social-item" href="https://qq.com" target="_blank"><img src="./icon_qq.png" alt="QQ"></a>
+            <a class="social-item" href="https://bilibili.com" target="_blank"><img src="./icon_bilibili.png" alt="B站"></a>
+            <a class="social-item" href="https://weibo.com" target="_blank"><img src="./icon_weibo.png" alt="微博"></a>
+          </div>
+        </div>
+        <h3 class="sec">◆ 小档案</h3>
+        <ul class="info-list">
+          <li><b>生日：</b>【月 / 日】</li>
+          <li><b>最喜欢的事：</b>【___】</li>
+          <li><b>最想去的地方：</b>【___】</li>
+          <li><b>座右铭：</b>【___】</li>
+        </ul>
+      </section>
+      <section class="tab-page" id="tab-anno" data-page="anno" hidden>
+        <div class="hello">☆ 📢官方公告 ☆</div>
+        <div class="divider"></div>
+        <div id="announcement-list"></div>
+      </section>
     </main>
   </div>
-  <!-- 页脚 -->
   <footer class="footer">
     <div>© 2006 - 2026 <span class="copy">【keroro骑士团】</span> 本部　|　本站共有 <b id="foot-count">0</b> 人次访问</div>
     <div>建议使用 IE 6.0 或以上浏览器，最佳浏览效果 800×600</div>
@@ -742,16 +818,20 @@ a:hover { color: var(--link-hover); }
 </div>
 <script>
 let tabs,pages;
-// DOM解析完成立刻获取导航元素
-document.addEventListener('DOMContentLoaded',function(){
+let blogCurrentPage =1;
+const BLOG_PAGE_SIZE =3;
+document.addEventListener('DOMContentLoaded',async function(){
   tabs = Array.from(document.querySelectorAll('#tabs button'));
   pages = Array.from(document.querySelectorAll('.tab-page'));
+  await renderHomeNotice();
+  await renderBlog();
+  await renderFeed();
+  await renderGuestbook();
+  await renderAnnouncement();
 });
-
 function enterSite(){
   document.getElementById('loginOverlay').style.display="none";
 }
-
 function switchTab(name) {
   if(!tabs || !pages) return;
   tabs.forEach(function (b) {
@@ -762,279 +842,304 @@ function switchTab(name) {
     p.hidden = p.getAttribute('data-page') !== name;
   });
 }
-
-//【手机端修复：延时提升至60ms适配低配手机DOM重绘时序】
 function goAndSwitch(tabName){
   enterSite();
   setTimeout(function(){
     switchTab(tabName);
   },60);
 }
-
-(function () {
-  'use strict';
-  /* ============ 星空背景 ============ */
-  (function stars() {
-    var field = document.getElementById('starfield');
-    var count = 90;
-    for (var i = 0; i < count; i++) {
-      var s = document.createElement('div');
-      s.className = 'star';
-      var size = (Math.random() * 2.2 + 0.6).toFixed(1);
-      s.style.width = size + 'px';
-      s.style.height = size + 'px';
-      s.style.left = (Math.random() * 100) + '%';
-      s.style.top = (Math.random() * 100) + '%';
-      s.style.setProperty('--tw', (Math.random() * 3 + 1.5).toFixed(1) + 's');
-      s.style.animationDelay = (Math.random() * 3) + 's';
-      field.appendChild(s);
-    }
-  })();
-  /* ============ 访客计数器 ============ */
-  var KEY = 'retro-visits';
-  var visits = 0;
-  try {
-    visits = parseInt(localStorage.getItem(KEY) || '0', 10) || 0;
-  } catch (e) {}
-  visits += 1;
-  try { localStorage.setItem(KEY, String(visits)); } catch (e) {}
-  function pad(n, len) {
-    var s = String(n);
-    while (s.length < len) s = '0' + s;
-    return s;
+async function renderHomeNotice(){
+  const {data} = await supabaseClient.from("site_notice").schema('public').select("*").limit(1);
+  const txtWrap = document.getElementById("homeNoticeText");
+  if(data&&data.length>0){
+    txtWrap.innerText = data[0].notice_text || "暂无站点公告";
+  }else{
+    txtWrap.innerText="暂无站点公告";
   }
-  function renderCount() {
-    var digits = pad(visits, 6).split('');
-    var box = document.getElementById('odometer');
-    box.innerHTML = '';
-    digits.forEach(function (d) {
-      var el = document.createElement('span');
-      el.className = 'digit';
-      el.textContent = d;
-      box.appendChild(el);
-    });
-    var foot = document.getElementById('foot-count');
-    if (foot) foot.textContent = visits;
-    var mc = document.getElementById('marquee-count');
-    if (mc) mc.textContent = visits;
+}
+async function renderBlog(){
+  const wrap = document.getElementById("blogListWrap");
+  const pageBar = document.getElementById("blogPageBar");
+  const {count} = await supabaseClient.from("blog").schema('public').select("*",{count:'exact',head:true});
+  const totalPage = Math.ceil(count / BLOG_PAGE_SIZE);
+  if(blogCurrentPage>totalPage && totalPage>0) blogCurrentPage = totalPage;
+  const from = (blogCurrentPage-1)*BLOG_PAGE_SIZE;
+  const to = from + BLOG_PAGE_SIZE -1;
+  const {data:list} = await supabaseClient.from("blog").schema('public').select("*").order("create_time",{asc:false}).range(from,to);
+  if(!list||list.length===0){
+    wrap.innerHTML="<div>暂无博客文章</div>";
+    pageBar.innerHTML="";
+    return;
   }
-  renderCount();
-  /* ============ 时钟 + 在线时长 ============ */
-  var t0 = Date.now();
-  var clockEl = document.getElementById('clock');
-  var onlineEl = document.getElementById('online');
-  function tick() {
-    var now = new Date();
-    function two(n) { return pad(n, 2); }
-    clockEl.textContent = two(now.getHours()) + ':' + two(now.getMinutes()) + ':' + two(now.getSeconds());
-    onlineEl.textContent = Math.floor((Date.now() - t0) / 1000);
-  }
-  tick();
-  setInterval(tick, 1000);
-  /* ============ 标签页点击绑定（页面上方导航栏） ============ */
-  tabs = Array.from(document.querySelectorAll('#tabs button'));
-  pages = Array.from(document.querySelectorAll('.tab-page'));
-  tabs.forEach(function (b) {
-    b.addEventListener('click', function () {
-      switchTab(b.getAttribute('data-tab'));
-    });
+  let html ="";
+  list.forEach(item=>{
+    const tagsHtml = item.tags ? item.tags.map(t=>`<span class="blog-tag">${escapeHtml(t)}</span>`).join("") :"";
+    html +=`<div class="blog-card">
+      <h4>${escapeHtml(item.title)}</h4>
+      <div class="blog-meta">🕐${escapeHtml(item.create_time||"")}｜📝字数：${item.word_count||0}
+      ${tagsHtml}
+      </div>
+      ${item.img ?`<img class="blog-img" src="${escapeHtml(item.img)}">`:""}
+      <div class="blog-content">${escapeHtml(item.content).replace(/\n/g,"<br>")}</div>
+    </div>`;
   });
-  /* ============ 留言板（localStorage） ============ */
-  var GKEY = 'retro-guestbook';
-  function loadMsgs() {
-    try {
-      var raw = localStorage.getItem(GKEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) { return []; }
+  wrap.innerHTML=html;
+  let pageHtml ="";
+  if(totalPage>1){
+    pageHtml+=`<button ${blogCurrentPage<=1?"disabled":""} onclick="blogCurrentPage--;renderBlog()">上一页</button>`;
+    pageHtml+=`<span> ${blogCurrentPage}/${totalPage} </span>`;
+    pageHtml+=`<button ${blogCurrentPage>=totalPage?"disabled":""} onclick="blogCurrentPage++;renderBlog()">下一页</button>`;
   }
-  function saveMsgs(msgs) {
-    try { localStorage.setItem(GKEY, JSON.stringify(msgs)); } catch (e) {}
+  pageBar.innerHTML = pageHtml;
+}
+async function renderFeed(){
+  const wrap = document.getElementById("feedListWrap");
+  const {data:list} = await supabaseClient.from("feed").schema('public').select("*").order("create_time",{asc:false});
+  if(!list||list.length===0){
+    wrap.innerHTML="<div>暂无动态</div>";
+    return;
   }
-  function renderMsgs() {
-    var list = document.getElementById('gb-list');
-    var msgs = loadMsgs();
-    if (!msgs.length) {
-      list.innerHTML = '<div class="gb-empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
-      return;
-    }
-    list.innerHTML = '';
-    msgs.forEach(function (m, idx) {
-      var box = document.createElement('div');
-      box.className = 'gb-msg';
-      var head = document.createElement('div');
-      head.className = 'gb-head';
-      var name = document.createElement('span');
-      name.className = 'gb-name';
-      name.textContent = m.name;
-      var time = document.createElement('span');
-      time.className = 'gb-time';
-      time.textContent = m.time;
-      head.appendChild(name);
-      head.appendChild(time);
-      var body = document.createElement('div');
-      body.className = 'gb-body';
-      body.textContent = m.msg;
-      var del = document.createElement('button');
-      del.type = 'button';
-      del.className = 'gb-del';
-      del.textContent = '✕ 删除';
-      del.setAttribute('aria-label', '删除' + m.name + '的留言');
-      del.addEventListener('click', function () {
-        msgs.splice(idx, 1);
-        saveMsgs(msgs);
-        renderMsgs();
-      });
-      box.appendChild(head);
-      box.appendChild(body);
-      box.appendChild(del);
-      list.appendChild(box);
-    });
-  }
-  renderMsgs();
-  var gbForm = document.getElementById('gb-form');
-  gbForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var nameInput = document.getElementById('gb-name');
-    var msgInput = document.getElementById('gb-msg');
-    var name = nameInput.value.trim();
-    var msg = msgInput.value.trim();
-    if (!name || !msg) return;
-    var msgs = loadMsgs();
-    var now = new Date();
-    function two(n) { return pad(n, 2); }
-    var ts = now.getFullYear() + '-' + two(now.getMonth() + 1) + '-' + two(now.getDate()) +
-             ' ' + two(now.getHours()) + ':' + two(now.getMinutes());
-    msgs.unshift({ name: name, msg: msg, time: ts });
-    saveMsgs(msgs);
-    nameInput.value = '';
-    msgInput.value = '';
-    renderMsgs();
-    nameInput.focus();
+  let html="";
+  list.forEach(item=>{
+    html+=`<div class="feed-item">
+      <div class="feed-time">🕐 ${escapeHtml(item.create_time||"")}</div>
+      <div style="margin-top:4px;white-space:pre-wrap;">${escapeHtml(item.text)}</div>
+    </div>`;
   });
-
-  // ========背景音乐播放器逻辑｜支持本地存储记住音量、静音、当前曲目========
-  (function(){
-    const audio = document.getElementById('bgAudio');
-    const audioTitle = document.getElementById('audioTitle');
-    const btnPlay = document.getElementById('btnPlay');
-    const btnMute = document.getElementById('btnMute');
-    const btnPrev = document.getElementById('btnPrev');
-    const btnNext = document.getElementById('btnNext');
-    const volSlider = document.getElementById('volSlider');
-    const STORAGE_KEY = "keroro_bgm_setting";
-
-    // ===歌曲列表，全部逗号已改为英文半角===
-    const musicList = [
-      {src:"./fontaine.mp3",name:"曲目一 枫丹 BGM"},
-      {src:"./venti.mp3",name:"曲目二 诗人的工作 BGM"},
-      {src:"./yuriyuri1op.mp3",name:"曲目三 摇曳百合OP"},
-      {src:"./yuriyuri1ed.mp3",name:"曲目四 摇曳百合ED"},
-      {src:"./keroro2ed.mp3",name:"曲目五 keroro军曹ED"}
-    ];
-
-    // 读取本地保存设置，没有则使用默认
-    let setting = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify({
-      currentIndex:0,
-      volume:0.7,
-      isMute:false
+  wrap.innerHTML=html;
+}
+async function renderGuestbook(){
+  const listEl = document.getElementById("gb-list");
+  const {data:msgs} = await supabaseClient.from("guestbook").schema('public').select("*").order("create_time",{asc:false});
+  if(!msgs||msgs.length===0){
+    listEl.innerHTML = '<div class="gb-empty">还没有留言，快来做第一个留言的人吧！✏️</div>';
+    return;
+  }
+  let html ="";
+  msgs.forEach(m=>{
+    html+=`<div class="gb-msg">
+      <div class="gb-head">
+        <span class="gb-name">${escapeHtml(m.name)}</span>
+        <span class="gb-time">${escapeHtml(m.create_time||"")}</span>
+      </div>
+      <div class="gb-body">${escapeHtml(m.msg)}</div>
+    </div>`;
+  });
+  listEl.innerHTML=html;
+}
+async function renderAnnouncement(){
+  const {data:list} = await supabaseClient.from("announcements").schema('public').select("*").order("create_time",{asc:false});
+  const topBar = document.getElementById("announcement-top-bar");
+  const topText = document.getElementById("announcement-top-text");
+  const listWrap = document.getElementById("announcement-list");
+  if(!list || list.length===0){
+    topBar.style.display="none";
+    listWrap.innerHTML="<div>暂无官方公告</div>";
+    return;
+  }
+  const latest = list[0];
+  topBar.style.display="block";
+  topBar.style.background = latest.is_important ? "#ff3355" : "#fb7299";
+  topText.innerText = latest.title;
+  let html="";
+  list.forEach(item=>{
+    const tagHtml = item.is_important ? `<span style="background:#ff3355;color:white;padding:2px 6px;border-radius:3px;font-size:12px;margin-right:6px;">【重要通知】</span>`:"";
+    html +=`
+    <div class="blog-card">
+      <h4>${tagHtml}${escapeHtml(item.title)}</h4>
+      <div class="blog-meta">🕐 ${escapeHtml(item.create_time||"")}</div>
+      <div class="blog-content">${escapeHtml(item.content).replace(/\n/g,"<br>")}</div>
+    </div>
+    `;
+  });
+  listWrap.innerHTML=html;
+}
+function escapeHtml(str){
+  if(!str) return "";
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+(function stars() {
+  var field = document.getElementById('starfield');
+  var count = 90;
+  for (var i = 0; i < count; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    var size = (Math.random() * 2.2 + 0.6).toFixed(1);
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.top = (Math.random() * 100) + '%';
+    s.style.setProperty('--tw', (Math.random() * 3 + 1.5).toFixed(1) + 's');
+    s.style.animationDelay = (Math.random() * 3) + 's';
+    field.appendChild(s);
+  }
+})();
+var KEY = 'retro-visits';
+var visits = 0;
+try {
+  visits = parseInt(localStorage.getItem(KEY) || '0', 10) || 0;
+} catch (e) {}
+visits += 1;
+try { localStorage.setItem(KEY, String(visits)); } catch (e) {}
+function pad(n, len) {
+  var s = String(n);
+  while (s.length < len) s = '0' + s;
+  return s;
+}
+function renderCount() {
+  var digits = pad(visits, 6).split('');
+  var box = document.getElementById('odometer');
+  box.innerHTML = '';
+  digits.forEach(function (d) {
+    var el = document.createElement('span');
+    el.className = 'digit';
+    el.textContent = d;
+    box.appendChild(el);
+  });
+  var foot = document.getElementById('foot-count');
+  if (foot) foot.textContent = visits;
+  var mc = document.getElementById('marquee-count');
+  if (mc) mc.textContent = visits;
+}
+renderCount();
+var t0 = Date.now();
+var clockEl = document.getElementById('clock');
+var onlineEl = document.getElementById('online');
+function tick() {
+  var now = new Date();
+  function two(n) { return pad(n, 2); }
+  clockEl.textContent = two(now.getHours()) + ':' + two(now.getMinutes()) + ':' + two(now.getSeconds());
+  onlineEl.textContent = Math.floor((Date.now() - t0) / 1000);
+}
+tick();
+setInterval(tick, 1000);
+tabs = Array.from(document.querySelectorAll('#tabs button'));
+pages = Array.from(document.querySelectorAll('.tab-page'));
+tabs.forEach(function (b) {
+  b.addEventListener('click', function () {
+    switchTab(b.getAttribute('data-tab'));
+  });
+});
+var gbForm = document.getElementById('gb-form');
+gbForm.addEventListener('submit',async function (e) {
+  e.preventDefault();
+  var nameInput = document.getElementById('gb-name');
+  var msgInput = document.getElementById('gb-msg');
+  var name = nameInput.value.trim();
+  var msg = msgInput.value.trim();
+  if (!name || !msg) return;
+  await supabaseClient.from("guestbook").schema('public').insert([{name,msg}]);
+  nameInput.value = '';
+  msgInput.value = '';
+  await renderGuestbook();
+});
+(function(){
+  const audio = document.getElementById('bgAudio');
+  const audioTitle = document.getElementById('audioTitle');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnMute = document.getElementById('btnMute');
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+  const volSlider = document.getElementById('volSlider');
+  const musicSelect=document.getElementById("musicSelect");
+  const STORAGE_KEY = "keroro_bgm_setting";
+  const musicList = [
+    {src:"./fontaine.mp3",name:"曲目一 枫丹 BGM"},
+    {src:"./venti.mp3",name:"曲目二 诗人的工作 BGM"},
+    {src:"./yuriyuri1op.mp3",name:"曲目三 摇曳百合OP"},
+    {src:"./yuriyuri1ed.mp3",name:"曲目四 摇曳百合ED"},
+    {src:"./keroro2ed.mp3",name:"曲目五 keroro军曹ED"}
+  ];
+  musicList.forEach((item,idx)=>{
+    const opt=document.createElement("option");
+    opt.value=idx;
+    opt.textContent=item.name;
+    musicSelect.appendChild(opt);
+  });
+  musicSelect.addEventListener("change",function(){
+    const idx=Number(this.value);
+    loadMusic(idx);
+    if(!audio.paused) audio.play().catch(e=>{});
+  });
+  let setting = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify({
+    currentIndex:0,
+    volume:0.7,
+    isMute:false
+  }));
+  let currentIndex = setting.currentIndex;
+  let isMute = setting.isMute;
+  let lastVolume = setting.volume;
+  function saveSetting(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      currentIndex,
+      volume:lastVolume,
+      isMute
     }));
-
-    let currentIndex = setting.currentIndex;
-    let isMute = setting.isMute;
-    let lastVolume = setting.volume;
-
-    // 保存配置到localStorage
-    function saveSetting(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        currentIndex,
-        volume:lastVolume,
-        isMute
-      }));
+  }
+  function renderMusicInfo(){
+    audioTitle.textContent = musicList[currentIndex].name;
+    musicSelect.value=currentIndex;
+  }
+  function loadMusic(idx){
+    currentIndex = idx % musicList.length;
+    if(currentIndex <0) currentIndex = musicList.length-1;
+    audio.src = musicList[currentIndex].src;
+    renderMusicInfo();
+    saveSetting();
+  }
+  function applyVolumeState(){
+    if(isMute){
+      audio.volume = 0;
+      btnMute.textContent = "🔊取消静音";
+      volSlider.value = 0;
+    }else{
+      audio.volume = lastVolume;
+      btnMute.textContent = "🔇静音";
+      volSlider.value = lastVolume * 100;
     }
-
-    //渲染当前歌曲信息
-    function renderMusicInfo(){
-      audioTitle.textContent = musicList[currentIndex].name;
+  }
+  btnPlay.addEventListener("click",()=>{
+    if(audio.paused){
+      audio.play().catch(e=>console.log("播放被浏览器限制：需要用户交互"));
+      btnPlay.textContent = "⏸暂停";
+    }else{
+      audio.pause();
+      btnPlay.textContent = "▶播放";
     }
-
-    //加载指定序号歌曲
-    function loadMusic(idx){
-      currentIndex = idx % musicList.length;
-      if(currentIndex <0) currentIndex = musicList.length-1;
-      audio.src = musicList[currentIndex].src;
-      renderMusicInfo();
-      saveSetting();
+  });
+  btnMute.addEventListener("click",()=>{
+    if(!isMute){
+      lastVolume = audio.volume;
+      isMute = true;
+    }else{
+      isMute = false;
     }
-
-    //应用音量&静音状态
-    function applyVolumeState(){
-      if(isMute){
-        audio.volume = 0;
-        btnMute.textContent = "🔊取消静音";
-        volSlider.value = 0;
-      }else{
-        audio.volume = lastVolume;
-        btnMute.textContent = "🔇静音";
-        volSlider.value = lastVolume * 100;
-      }
-    }
-
-    //播放暂停
-    btnPlay.addEventListener("click",()=>{
-      if(audio.paused){
-        audio.play().catch(e=>console.log("播放被浏览器限制：需要用户交互"));
-        btnPlay.textContent = "⏸暂停";
-      }else{
-        audio.pause();
-        btnPlay.textContent = "▶播放";
-      }
-    });
-
-    //静音切换
-    btnMute.addEventListener("click",()=>{
-      if(!isMute){
-        lastVolume = audio.volume;
-        isMute = true;
-      }else{
-        isMute = false;
-      }
-      applyVolumeState();
-      saveSetting();
-    });
-
-    //下一首
-    btnNext.addEventListener("click",()=>{
-      loadMusic(currentIndex+1);
-      if(!audio.paused) audio.play();
-    });
-    //上一首
-    btnPrev.addEventListener("click",()=>{
-      loadMusic(currentIndex-1);
-      if(!audio.paused) audio.play();
-    });
-
-    //音量滑块调节
-    volSlider.addEventListener("input",()=>{
-      const val = Number(volSlider.value)/100;
-      lastVolume = val;
-      if(val>0){
-        isMute = false;
-      }
-      applyVolumeState();
-      saveSetting();
-    });
-
-    //一首歌播放完毕自动切下一首
-    audio.addEventListener("ended",()=>{
-      loadMusic(currentIndex+1);
-      audio.play().catch(e=>{});
-    });
-
-    //页面初始化：加载上次的歌曲 + 恢复音量静音状态
-    loadMusic(currentIndex);
     applyVolumeState();
-  })();
-
+    saveSetting();
+  });
+  btnNext.addEventListener("click",()=>{
+    loadMusic(currentIndex+1);
+    if(!audio.paused) audio.play().catch(e=>{});
+  });
+  btnPrev.addEventListener("click",()=>{
+    loadMusic(currentIndex-1);
+    if(!audio.paused) audio.play().catch(e=>{});
+  });
+  volSlider.addEventListener("input",()=>{
+    const val = Number(volSlider.value)/100;
+    lastVolume = val;
+    if(val>0){
+      isMute = false;
+    }
+    applyVolumeState();
+    saveSetting();
+  });
+  audio.addEventListener("ended",()=>{
+    loadMusic(currentIndex+1);
+    audio.play().catch(e=>{});
+  });
+  loadMusic(currentIndex);
+  applyVolumeState();
 })();
 </script>
 </body>
