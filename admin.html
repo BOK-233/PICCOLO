@@ -8,7 +8,10 @@
 <script>
 const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ✅ 在创建客户端直接指定 public schema，全局生效，不用每处写 .schema()
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  db: { schema: 'public' }
+});
 </script>
 <title>keroro骑士团 - 站长后台</title>
 <style>
@@ -181,7 +184,7 @@ async function doLogout(){
 
 //公告
 async function renderAnnouncementAdmin(){
-  const {data:list} = await supabaseClient.from("announcements").schema('public').select("*").order("create_time",{asc:false});
+  const {data:list} = await supabaseClient.from("announcements").select("*").order("create_time",{asc:false});
   const wrap=document.getElementById("annoList");
   if(!list||!list.length){wrap.innerHTML="<div>暂无公告</div>";return;}
   let html="";
@@ -199,7 +202,7 @@ async function submitAnnouncement(){
   const content = document.getElementById("anno_content").value.trim();
   const important = document.getElementById("anno_important").checked;
   if(!title||!content){alert("标题和内容不能为空");return;}
-  await supabaseClient.from("announcements").schema('public').insert([{title,content,is_important:important}]);
+  await supabaseClient.from("announcements").insert([{title,content,is_important:important}]);
   document.getElementById("anno_title").value="";
   document.getElementById("anno_content").value="";
   renderAnnouncementAdmin();
@@ -207,7 +210,7 @@ async function submitAnnouncement(){
 
 async function delAnno(id){
   if(!confirm("确定删除这条公告？")) return;
-  await supabaseClient.from("announcements").schema('public').delete().eq("id",id);
+  await supabaseClient.from("announcements").delete().eq("id",id);
   renderAnnouncementAdmin();
 }
 
@@ -219,7 +222,7 @@ async function submitBlog(){
   const img = document.getElementById("blogImg").value.trim();
   if(!title||!content){alert("标题和正文不能为空");return;}
   const tags = tagStr ? tagStr.split(",").map(s=>s.trim()).filter(s=>s) : [];
-  await supabaseClient.from("blog").schema('public').insert([{
+  await supabaseClient.from("blog").insert([{
     title,
     content,
     tags,
@@ -237,14 +240,14 @@ async function submitBlog(){
 async function submitFeed(){
   const text = document.getElementById("feedText").value.trim();
   if(!text){alert("动态内容不能为空");return;}
-  await supabaseClient.from("feed").schema('public').insert([{text}]);
+  await supabaseClient.from("feed").insert([{text}]);
   document.getElementById("feedText").value="";
   alert("动态发布成功");
 }
 
 //留言板管理
 async function renderGuestbookAdmin(){
-  const {data:msgs} = await supabaseClient.from("guestbook").schema('public').select("*").order("create_time",{asc:false});
+  const {data:msgs} = await supabaseClient.from("guestbook").select("*").order("create_time",{asc:false});
   const wrap = document.getElementById("gbAdminList");
   if(!msgs||!msgs.length){wrap.innerHTML="<div>暂无留言</div>";return;}
   let html="";
@@ -260,7 +263,7 @@ async function renderGuestbookAdmin(){
 
 async function delGb(id){
   if(!confirm("确定删除这条访客留言？")) return;
-  await supabaseClient.from("guestbook").schema('public').delete().eq("id",id);
+  await supabaseClient.from("guestbook").delete().eq("id",id);
   renderGuestbookAdmin();
 }
 </script>
