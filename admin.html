@@ -3,101 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>欢迎光临 ★【keroro骑士团】★</title>
+<link rel="icon" href="./favicon.ico" type="image/x-icon">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://wipetqwpjvdiptudkwey.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpcGV0cXdwanZkaXB0dWRrd2V5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc5MDMxMjcsImV4cCI6MjEwMzQ3OTEyN30.Kc8I6b5ozMYM99VAUBz5ln1ZGZuABjXDmu1fq5FgmHY";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+<title>keroro骑士团 - 站长后台</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+*{box-sizing:border-box;margin:0;padding:0;}
 :root {
   --neon-cyan: #00ffff;
   --neon-yellow: #ffff00;
   --neon-pink: #ff66cc;
   --neon-green: #33ff66;
-  --neon-orange: #ff9933;
-  --panel-bg:#000022;
+  --panel-bg: rgba(8, 8, 46, 0.92);
+  --panel-border: #4040ff;
+  --text-main: #e8e8ff;
 }
 body{
-  background:#000;
-  color:white;
-  font-family:"Microsoft Yahei",sans-serif;
-  overflow-x:hidden;
+  background:#000020;
+  color:var(--text-main);
+  font-family:"Microsoft YaHei",sans-serif;
+  padding:24px 12px;
+  max-width:900px;
+  margin:0 auto;
 }
-/* 登录全屏遮罩 */
-#loginOverlay{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:
-    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-    url("login_bg.jpg") center / 1920px 1080px no-repeat;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-/* 竖长方形登录索引面板 */
-.login-box{
-  width:320px;
-  min-height:480px;
-  background:rgba(5,5,40,0.88);
-  border:2px solid var(--neon-cyan);
-  padding:30px 20px;
+h1{
+  background: linear-gradient(90deg,#ff0000,#ff9900,#ffff00,#00ff00,#00ffff,#6600ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
   text-align:center;
-  border-radius:8px;
+  margin-bottom:24px;
 }
-.login-box h2{
-  color:var(--neon-yellow);
-  margin-bottom:30px;
+.panel{
+  border:2px solid var(--panel-border);
+  border-radius:10px;
+  background:var(--panel-bg);
+  padding:16px;
+  margin-bottom:18px;
+  box-shadow:0 0 14px rgba(0,80,255,.35);
 }
-.login-nav a{
-  display:block;
-  color:var(--neon-cyan);
-  text-decoration:none;
-  margin:16px 0;
-  font-size:17px;
+.panel h3{
+  color:#ffcc66;
+  margin-bottom:10px;
 }
-.enter-btn{
-  margin-top:40px;
-  padding:12px 28px;
-  font-size:18px;
-  background:var(--neon-pink);
-  border:none;
-  color:#000;
+input,textarea,select{
+  width:100%;
+  background:#050530;
+  color:#00ffcc;
+  border:2px inset #4466bb;
+  padding:8px;
+  margin:6px 0 12px;
+  font-size:14px;
+}
+button{
+  padding:7px 14px;
+  font-weight:bold;
   cursor:pointer;
-  border-radius:4px;
+  margin:4px;
 }
-/* 主页内容（你原来主页，完全不动） */
-#mainPage{
-  display:none;
+.login-wrap{
+  max-width:400px;
+  margin:40px auto;
 }
-/* 星空、跑马灯、时钟、标签等原有样式放这里 */
+.msg{color:#ff8888;margin:8px 0;}
+.item{
+  border-bottom:1px dashed #4444cc;
+  padding:10px 0;
+}
+.hidden{display:none !important;}
+.logout-bar{
+  text-align:right;margin-bottom:12px;
+}
 </style>
 </head>
 <body>
+<h1>★ keroro骑士团 · 站长后台 ★</h1>
 
-<!-- 登录索引层 -->
-<div id="loginOverlay">
-  <div class="login-box">
-    <h2>★ keroro骑士团 ★</h2>
-    <div class="login-nav">
-      <a href="#home">🏠 首页</a>
-      <a href="#about">👤 关于本站</a>
-      <a href="#gallery">🖼️ 相册</a>
-      <a href="#link">🔗 友情链接</a>
-      <a href="#guestbook">📝 留言板</a>
-    </div>
-    <button class="enter-btn" onclick="enterSite()">进入站点</button>
+<div id="loginWrap" class="login-wrap">
+  <div class="panel">
+    <h3>站长登录</h3>
+    <label>邮箱</label>
+    <input id="loginEmail" type="email">
+    <label>密码</label>
+    <input id="loginPwd" type="password">
+    <div class="msg" id="loginMsg"></div>
+    <button onclick="doAdminLogin()">登录</button>
   </div>
 </div>
 
-<!-- 你的原版主页内容，不会改动 -->
-<div id="mainPage">
-  <!-- 这里粘贴你原先一整份主页全部HTML代码 -->
+<div id="adminWrap" class="hidden">
+  <div class="logout-bar">
+    <button onclick="doLogout()">🚪退出登录</button>
+  </div>
+
+  <div class="panel">
+    <h3>🔔发布官方公告</h3>
+    <input id="anno_title" placeholder="公告标题，例：【重要通知】站点功能更新">
+    <textarea id="anno_content" rows="4" placeholder="公告正文内容"></textarea>
+    <label><input type="checkbox" id="anno_important">标记为重要公告（红色高亮）</label>
+    <br>
+    <button onclick="submitAnnouncement()">发布公告</button>
+    <div id="annoList"></div>
+  </div>
+
+  <div class="panel">
+    <h3>📖发布博客文章</h3>
+    <input id="blogTitle" placeholder="文章标题">
+    <textarea id="blogContent" rows="6" placeholder="正文内容"></textarea>
+    <input id="blogTags" placeholder="标签，逗号分隔，例：生活,动漫,感想">
+    <input id="blogImg" placeholder="配图路径(可选，如 ./pic.gif)">
+    <button onclick="submitBlog()">发布博客</button>
+  </div>
+
+  <div class="panel">
+    <h3>📜发布简短动态</h3>
+    <textarea id="feedText" rows="4" placeholder="写下简短动态..."></textarea>
+    <button onclick="submitFeed()">发布动态</button>
+  </div>
+
+  <div class="panel">
+    <h3>✍留言板管理（可删除留言）</h3>
+    <div id="gbAdminList"></div>
+  </div>
 </div>
 
 <script>
-function enterSite(){
-  document.getElementById("loginOverlay").style.display="none";
-  document.getElementById("mainPage").style.display="block";
+let isAdmin=false;
+
+function escapeHtml(str){
+  if(!str) return "";
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+document.addEventListener('DOMContentLoaded',async ()=>{
+  const {data:{user}} = await supabaseClient.auth.getUser();
+  if(user){
+    isAdmin=true;
+    showAdminView();
+  }
+});
+
+function showAdminView(){
+  document.getElementById("loginWrap").classList.add("hidden");
+  document.getElementById("adminWrap").classList.remove("hidden");
+  renderAnnouncementAdmin();
+  renderGuestbookAdmin();
+}
+
+async function doAdminLogin(){
+  const email = document.getElementById("loginEmail").value.trim();
+  const pwd = document.getElementById("loginPwd").value.trim();
+  const msgEl = document.getElementById("loginMsg");
+  msgEl.innerText="登录中...";
+  try{
+    const {data,error} = await supabaseClient.auth.signInWithPassword({email,password:pwd});
+    if(error){
+      msgEl.innerText="登录失败："+error.message;
+      return;
+    }
+    isAdmin=true;
+    showAdminView();
+  }catch(err){
+    msgEl.innerText=err.message;
+  }
+}
+
+async function doLogout(){
+  await supabaseClient.auth.signOut();
+  isAdmin=false;
+  document.getElementById("loginWrap").classList.remove("hidden");
+  document.getElementById("adminWrap").classList.add("hidden");
+}
+
+//公告
+async function renderAnnouncementAdmin(){
+  const {data:list} = await supabaseClient.from("announcements").schema('public').select("*").order("create_time",{asc:false});
+  const wrap=document.getElementById("annoList");
+  if(!list||!list.length){wrap.innerHTML="<div>暂无公告</div>";return;}
+  let html="";
+  list.forEach(i=>{
+    html+=`<div class="item">
+      <div>${escapeHtml(i.title)} ${i.is_important?"【重要】":""}</div>
+      <button onclick="delAnno(${i.id})">删除</button>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+async function submitAnnouncement(){
+  const title = document.getElementById("anno_title").value.trim();
+  const content = document.getElementById("anno_content").value.trim();
+  const important = document.getElementById("anno_important").checked;
+  if(!title||!content){alert("标题和内容不能为空");return;}
+  await supabaseClient.from("announcements").schema('public').insert([{title,content,is_important:important}]);
+  document.getElementById("anno_title").value="";
+  document.getElementById("anno_content").value="";
+  renderAnnouncementAdmin();
+}
+
+async function delAnno(id){
+  if(!confirm("确定删除这条公告？")) return;
+  await supabaseClient.from("announcements").schema('public').delete().eq("id",id);
+  renderAnnouncementAdmin();
+}
+
+//博客
+async function submitBlog(){
+  const title = document.getElementById("blogTitle").value.trim();
+  const content = document.getElementById("blogContent").value.trim();
+  const tagStr = document.getElementById("blogTags").value.trim();
+  const img = document.getElementById("blogImg").value.trim();
+  if(!title||!content){alert("标题和正文不能为空");return;}
+  const tags = tagStr ? tagStr.split(",").map(s=>s.trim()).filter(s=>s) : [];
+  await supabaseClient.from("blog").schema('public').insert([{
+    title,
+    content,
+    tags,
+    img:img||null,
+    word_count:content.length
+  }]);
+  document.getElementById("blogTitle").value="";
+  document.getElementById("blogContent").value="";
+  document.getElementById("blogTags").value="";
+  document.getElementById("blogImg").value="";
+  alert("博客发布成功，回到前台页面刷新查看");
+}
+
+//动态feed
+async function submitFeed(){
+  const text = document.getElementById("feedText").value.trim();
+  if(!text){alert("动态内容不能为空");return;}
+  await supabaseClient.from("feed").schema('public').insert([{text}]);
+  document.getElementById("feedText").value="";
+  alert("动态发布成功");
+}
+
+//留言板管理
+async function renderGuestbookAdmin(){
+  const {data:msgs} = await supabaseClient.from("guestbook").schema('public').select("*").order("create_time",{asc:false});
+  const wrap = document.getElementById("gbAdminList");
+  if(!msgs||!msgs.length){wrap.innerHTML="<div>暂无留言</div>";return;}
+  let html="";
+  msgs.forEach(m=>{
+    html+=`<div class="item">
+      <div><b>${escapeHtml(m.name)}</b> ${escapeHtml(m.create_time||"")}</div>
+      <div>${escapeHtml(m.msg)}</div>
+      <button onclick="delGb(${m.id})">🗑删除这条留言</button>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+async function delGb(id){
+  if(!confirm("确定删除这条访客留言？")) return;
+  await supabaseClient.from("guestbook").schema('public').delete().eq("id",id);
+  renderGuestbookAdmin();
 }
 </script>
-
 </body>
 </html>
