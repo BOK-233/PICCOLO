@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欢迎光临 ★【keroro骑士团】★</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --neon-cyan: #00ffff;
+  --neon-yellow: #ffff00;
+  --neon-pink: #ff66cc;
+  --neon-green: #33ff66;
+  --neon-orange: #ff9933;
+  --panel-bg:#000022;
+}
+body{
+  background:#000;
+  color:white;
+  font-family:"Microsoft Yahei",sans-serif;
+  overflow-x:hidden;
+}
+/* 登录全屏遮罩 */
+#loginOverlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:
+    linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+    url("login_bg.jpg") center / 1920px 1080px no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+/* 竖长方形登录索引面板 */
+.login-box{
+  width:320px;
+  min-height:480px;
+  background:rgba(5,5,40,0.88);
+  border:2px solid var(--neon-cyan);
+  padding:30px 20px;
+  text-align:center;
+  border-radius:8px;
+}
+.login-box h2{
+  color:var(--neon-yellow);
+  margin-bottom:30px;
+}
+.login-nav a{
+  display:block;
+  color:var(--neon-cyan);
+  text-decoration:none;
+  margin:16px 0;
+  font-size:17px;
+}
+.enter-btn{
+  margin-top:40px;
+  padding:12px 28px;
+  font-size:18px;
+  background:var(--neon-pink);
+  border:none;
+  color:#000;
+  cursor:pointer;
+  border-radius:4px;
+}
+/* 主页内容（你原来主页，完全不动） */
+#mainPage{
+  display:none;
+}
+/* 星空、跑马灯、时钟、标签等原有样式放这里 */
+</style>
+</head>
+<body>
+
+<!-- 登录索引层 -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <h2>★ keroro骑士团 ★</h2>
+    <div class="login-nav">
+      <a href="#home">🏠 首页</a>
+      <a href="#about">👤 关于本站</a>
+      <a href="#gallery">🖼️ 相册</a>
+      <a href="#link">🔗 友情链接</a>
+      <a href="#guestbook">📝 留言板</a>
+    </div>
+    <button class="enter-btn" onclick="enterSite()">进入站点</button>
+  </div>
+</div>
+
+<!-- 你的原版主页内容，不会改动 -->
+<div id="mainPage">
+  <!-- 这里粘贴你原先一整份主页全部HTML代码 -->
+</div>
+
+<script>
+function enterSite(){
+  document.getElementById("loginOverlay").style.display="none";
+  document.getElementById("mainPage").style.display="block";
+}
+</script>
+
+</body>
+</html>
