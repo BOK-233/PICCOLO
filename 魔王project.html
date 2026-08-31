@@ -456,11 +456,18 @@ h3.sec { font-size: 16px; color: var(--neon-cyan); margin: 14px 0 6px; border-le
   flex-wrap:wrap;
   justify-content:center;
 }
-.social-item img{
+.social-item{
   width:42px;
   height:42px;
   border-radius:6px;
   border:2px outset #88ddff;
+  background:#222;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#ccc;
+  font-size:10px;
+  text-decoration:none;
 }
 .home-notice-box{
   border:2px ridge #ffcc66;
@@ -872,9 +879,9 @@ a:hover { color: var(--link-hover); }
         <h3 class="sec">◆ 社交账号</h3>
         <div class="social-box">
           <div class="social-row">
-            <a class="social-item"https://github.com/BOK-233/PICCOLO"./icon_qq.png" alt="github"></a>
-            <a class="social-item"href="https://space.bilibili.com/591899608?spm_id_from=333.1007.0.0"./icon_bilibili.png" alt="B站"></a>
-            <a class="social-item"href="https://www.douyin.com/user/self"./icon_weibo.png" alt="抖音"></a>
+            <a class="social-item" href="https://github.com/BOK-233/PICCOLO" target="_blank" rel="noopener noreferrer">Github</a>
+            <a class="social-item" href="https://space.bilibili.com/591899608?spm_id_from=333.1007.0.0" target="_blank" rel="noopener noreferrer">B站</a>
+            <a class="social-item" href="https://www.douyin.com/user/self" target="_blank" rel="noopener noreferrer">抖音</a>
           </div>
         </div>
         <h3 class="sec">◆ 小档案</h3>
@@ -1119,7 +1126,7 @@ async function delGb(id){
 //html转义
 function escapeHtml(str){
   if(!str) return "";
-  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace( />/g,"&gt;");
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 //=========页面基础功能 星空、计数器时钟=========
 (function stars() {
